@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef,Input, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxCarousel } from 'ngx-carousel';
 import { AppserviceService } from 'src/app/services/appservice.service';
@@ -7,12 +7,14 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-home',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss'],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
-export class HomePage implements OnInit {
+export class HomeComponent {
+  
   registerForm: FormGroup;
   submitted = false;
   datas:any = [1,2,3,4,5,6,7,8,9,10]
@@ -34,9 +36,9 @@ export class HomePage implements OnInit {
     }
    }
    getUserAuth(){
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
     if(obj){ 
-    this.userDetailsAuth = obj;
+    this.userDetailsAuth = JSON.parse(obj);
     console.log(this.userDetailsAuth);
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
@@ -59,7 +61,7 @@ export class HomePage implements OnInit {
   }
 
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.appService.productCountChange.subscribe(count => {
       this.tempcount = [];
       if(Object.keys(count).length > 0){ 
@@ -90,16 +92,6 @@ export class HomePage implements OnInit {
       }
       this.tempcount = [];
       });
-
-    this.registerForm = this.formBuilder.group({
-        title: ['', Validators.required],
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
-        acceptTerms: [false, Validators.requiredTrue]
-    });
     this.getProducts();
     this.getUserDetails();
 }
@@ -249,25 +241,6 @@ slideOptsOne = {
 
   
 
-// convenience getter for easy access to form fields
-get f() { return this.registerForm.controls; }
-
-onSubmit() {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-        return;
-    }
-
-    // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
-}
-
-onReset() {
-    this.submitted = false;
-    this.registerForm.reset();
-}
 
 //pdt seperate display 
 gotoProductDesc(name,id){
@@ -358,42 +331,7 @@ getWishlist(){
 }
 
 
-addWishlist(id){
-  if(!this.userLogin){
-    console.log(id);
-    swal({
-      title: "Login Necessary",
-      type: 'warning',
-      showConfirmButton: true,
-      showCancelButton: false    
-    })
-    .then((willDelete) => {
-    });
-    return;
-  }
-  else{
-    let obj = {
-      productID:id,
-      customerID:this.userDetailsAuth.id
-    }
-    this.appService.postWishlist(obj).subscribe(data => {
-      console.log(data);
-      this.getWishlist();
-    })
 
-  } 
-}
-
-deleteWishlist(id){
-  this.appService.deleteWishlist(id).subscribe(data => {
-    if(data){
-      if(data == true){
-        this.getWishlist();
-      }
-    }
-    
-  })
-}
 
 
 

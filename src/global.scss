@@ -396,3 +396,14 @@ span.priceOfferGreen {
 .priceGrid {
     margin-top: 16px;
 }
+
+.card-header {
+    font-size: 20px !important
+}
+
+mat-cell,
+mat-header-cell,
+mat-footer-cell {
+    word-break: break-all;
+    padding: 10px 15px;
+}

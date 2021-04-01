@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, Output,EventEmitter } from '@angular/core';
 import { AppserviceService } from '../services/appservice.service'; 
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -12,6 +12,10 @@ export class ProductsPage implements OnInit {
   getProductCount:any = [];
   list:string = 'grid';
   userDetailsAuth:any = {};
+  // master : String="send from parent";
+  // childToParent(name){
+  //   this.master=name;
+  // }
   constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router) {
     let pr = JSON.parse(sessionStorage.getItem("getProductCount"));
     if(pr){ 
@@ -25,7 +29,6 @@ export class ProductsPage implements OnInit {
     let obj = JSON.parse(this.cookieService.get('userDetails'));
     if(obj){ 
     this.userDetailsAuth = obj;
-    console.log(this.userDetailsAuth);
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
     }
@@ -39,7 +42,6 @@ export class ProductsPage implements OnInit {
   cartIDNo:number = 0;
   productListData:any = [];
   ngOnInit() {
-  
     this.appService.productCountChange.subscribe(count => {
       if(Object.keys(count).length > 0){ 
       this.getProductclickCount(count);
@@ -52,6 +54,7 @@ export class ProductsPage implements OnInit {
     });
     this.getCategoryProduct();
     this.getProducts();
+    this.getSubCategory();
   }
 
   getProductclickCount(count){
@@ -97,66 +100,6 @@ export class ProductsPage implements OnInit {
       });
     }
   }
-
-  getWishlistData:any = [];
-getWishlist(){
-  this.appService.getWishlist(this.userDetailsAuth.id).subscribe(data =>{
-    console.log("data wishlist");
-    console.log(data);
-    this.getWishlistData = data;
-    console.log(this.productList);
-      this.productList.forEach(subcat => {
-      subcat.product.forEach(product =>{
-        product.wishlist = false;
-        this.getWishlistData.forEach(wish =>{
-        if((product.productID == wish.productID) && (wish.customerID == this.userDetailsAuth.id)){
-          product.wishlist = true;
-          console.log(product);
-        }
-      });
-    });
-  });
-  })
-}
-
-  addWishlist(id){
-    if(!this.userLogin){
-      console.log(id);
-      swal({
-        title: "Login Necessary",
-        type: 'warning',
-        showConfirmButton: true,
-        showCancelButton: false    
-      })
-      .then((willDelete) => {
-      });
-      return;
-    }
-    else{
-      let obj = {
-        productID:id,
-        customerID:this.userDetailsAuth.id
-      }
-      this.appService.postWishlist(obj).subscribe(data => {
-        console.log(data);
-        this.getWishlist();
-      })
-  
-    } 
-  }
-  
-  deleteWishlist(id){
-    this.appService.deleteWishlist(id).subscribe(data => {
-      if(data){
-        if(data == true){
-          console.log(data);
-          this.getWishlist();
-        }
-      }
-      
-    })
-  }
-
   getProducts(){
     this.appService.getProductList().subscribe((data) => {
         if(data){
@@ -169,14 +112,22 @@ getWishlist(){
 
 cartNumber:number = 1;
 productArr:any = {};
-  
-  gotoProductDesc(name,id){
-    let product = {'id':id, 'name':name}
-    this.appService.product = product;
-    sessionStorage.setItem("productData",JSON.stringify(product));
-    // this.router.navigate(['products/product-details']);
-        this.router.navigate(['products/product-details'], { queryParams: { name: name}});
+subCatList:any = [];
+productLoadTrue:boolean = false;
+getSubCategory(){
+  if(Object.keys(this.menuId).length > 0){ 
+    this.menuName = this.menuId.name;
   }
+  else{
+    this.menuId = JSON.parse(sessionStorage.getItem("productMenu"));
+  }
+  setTimeout(() =>{
+  this.appService.getSubCategorybyCatId(this.menuId.id).subscribe(data => {
+    console.log('sub category details:::',data);
+    this.subCatList=data;
+  })
+})
+}
 
   getCategoryProduct(){
     if(Object.keys(this.menuId).length > 0){ 
@@ -186,30 +137,59 @@ productArr:any = {};
       this.menuId = JSON.parse(sessionStorage.getItem("productMenu"));
     }
     setTimeout(() =>{
-    this.appService.getCategoryProduct(this.menuId.id).subscribe(data =>{
-      console.log(data);
-      this.productList = data;
-      this.getProductQuantity();
-      this.getWishlist();
-    })
+    this.getAllProductByCat();
   });
   }
+
+  getAllProductByCat(){
+    this.productList = [];
+  this.appService.getCategoryProduct(this.menuId.id).subscribe(data =>{
+    console.log(data);
+    this.productList = data;
+    this.productLoadTrue = true;
+    this.getProductQuantity();
+  })
+}
+
+
+
   subcatSetID:number = 0;
   subcatSetIDBoolean:boolean = true;
+  
   getAll(id){
-    let data = [];
-    this.subcatSetIDBoolean = true;
     this.subcatSetID = id;
-    data = this.productList.filter(data => {return data.subCatID == id});
-    if(data.length > 0){
-      if(data[0].product.length > 0){
-        this.subcatSetIDBoolean = true;
-      }
-      else{
-        this.subcatSetIDBoolean = false;
-      }
-    }
+    this.getAllProductByCat()
+    // let data = [];
+    // this.subcatSetIDBoolean = true;
+    // this.subcatSetID = id;
+    // data = this.productList.filter(data => {return data.subCatID == id});
+    // if(data.length > 0){
+    //   if(data[0].product.length > 0){
+    //     this.subcatSetIDBoolean = true;
+    //   }
+    //   else{
+    //     this.subcatSetIDBoolean = false;
+    //   }
+    // }
   }
+
+getProductBySubId(id){ 
+  this.subcatSetID = id;
+  this.productList = [];
+  this.productLoadTrue = false;
+  this.appService.getRelatedProducts(id).subscribe(res =>{
+    console.log(res);
+    setTimeout(()=>{
+      this.productList = res;
+      this.productLoadTrue = true;
+      this.ngOnInit();
+    })
+    
+  });
+}
+
+
+
 
 
   getProductQuantity(){

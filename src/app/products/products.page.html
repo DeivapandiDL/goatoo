@@ -7,6 +7,11 @@
     </div>
     <section class="productGrid">
         <div class="container">
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <app-child-product [childToMaster]=master (childToParent)="childToParent($event)"></app-child-product>
+                </div>
+            </div> -->
             <div class="row" *ngIf="productList.length > 0">
                 <div class="col-md-12 flex_end">
                     <button class="listView" [class.btActive]="list == 'grid'" (click)="view('grid')"><ion-icon ios="ios-grid" md="md-grid"></ion-icon> Grid View</button>
@@ -20,32 +25,26 @@
                     </div>
                 </div>
             </div>
-            <div class="row" *ngIf="productList.length == 0">
-                <div class="col-md-12 noProduct">
-                    <h2 class="highlight">No Products Available</h2>
-                </div>
-            </div>
-            <div class="row" *ngIf="productList.length > 0">
+
+            <div class="row">
                 <div class="col-md-3">
                     <div class="subCatList">
                         <h4 class="highlight">Sub Categories</h4>
-                        <ng-container *ngIf="productList && productList.length > 0">
+                        <ng-container>
                             <a (click)="getAll(0)" [class.activeHighlight]="subcatSetID == 0">All Categories</a>
-                            <a *ngFor="let subcat of productList" [class.activeHighlight]="subcatSetID == subcat.subCatID" (click)="getAll(subcat.subCatID)">{{subcat.subCatName}}</a>
+                            <a *ngFor="let subcat of subCatList" [class.activeHighlight]="subcatSetID == subcat.subCatID" (click)="getProductBySubId(subcat.subCatID)">{{subcat.subCatName}}</a>
                         </ng-container>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div class="gridRight">
-                        <ng-container *ngIf="productList && productList.length > 0">
+                        <ng-container *ngIf="productLoadTrue">
                             <ng-container *ngFor="let subcat of productList;">
-                                <!-- <div class="row" *ngIf="subcat.product && subcat.product.length > 0">
-                                <h2 class="col-md-12 catName text-center"><span>{{subcat.subCatName}}</span></h2>
-                            </div> -->
                                 <div class="row">
                                     <ng-container *ngFor="let products of subcat.product;let i = index;">
                                         <ng-container *ngIf="subcat.subCatID == subcatSetID || subcatSetID == 0;">
-                                            <div class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}">
+                                            <app-child-product class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
+                                            <!-- <div>
                                                 <div class="gridProduct">
                                                     <a class="wishlist">
                                                         <img *ngIf="!products.wishlist" (click)="addWishlist(products.productID)" src="../../assets/images/heart_white.png">
@@ -53,13 +52,12 @@
                                                     </a>
                                                     <a class="ProductClick" (click)="gotoProductDesc(products.productName,products.productID)">
                                                         <img *ngIf="products.productImage == '' " src="../../assets/images/product/1.jpg">
-                                                        <!-- <img *ngIf="products.productImage != '' " src="../../assets/images/{{products.categoryID}}/{{products.productImage}}"> -->
                                                         <img *ngIf="products.productImage != '' " src="{{products.productImage}}">
 
                                                     </a>
                                                     <div class="productDesc" (click)="gotoProductDesc(products.productName,products.productID)">
                                                         <div class="descProduct">
-                                                            <h4 tooltip="{{products.productName}}">{{products.productName}}</h4>
+                                                            <h4 matTooltip="{{products.productName}}">{{products.productName}}</h4>
                                                             <p>{{products.productDescription | slice:0:50}}...</p>
                                                         </div>
                                                         <div class="fewLeftproduct" *ngIf="products.productCount < 4 && products.productCount > 0">
@@ -81,18 +79,10 @@
                                                             <span class="per"> {{products.productOfferPercent}}% off </span>
                                                             <span class="priceOfferGreen"> {{products.productRateSymbol}}{{(products.productRate - (products.productOfferPercent * products.productRate / 100)).toFixed(0)}}</span>
                                                             </span>
-                                                            <!-- <div class="countCart" *ngIf="products.quantityBool">
-                                                                <button (click)="countClick(products.productID,products.quantity,0)">-</button>
-                                                                <input type="text" class="text-center" [ngModel]="products.quantity">
-                                                                <button (click)="countClick(products.productID,products.quantity,1)">+</button>
-                                                            </div> -->
-                                                            <!-- <button *ngIf="!products.quantityBool" class="btn btn-danger btn-sm" (click)="openCount(products.productID)">ADD TO CART</button> -->
-                                                            <!-- <button class="btn btn-danger btn-sm" (click)="gotoProductDesc(products.productName,products.productID)">ADD TO CART</button> -->
-
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </ng-container>
                                         <ng-container *ngIf="!subcatSetIDBoolean">
                                             <h2 class="text-center"> No Product Available</h2>

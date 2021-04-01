@@ -6,11 +6,16 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderSuccessComponent } from './order-success/order-success.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductsPage
+    component: HomeComponent
+  },
+  {
+    path:'product-list',
+    component:ProductsPage
   },
   {
     path:'product-details',

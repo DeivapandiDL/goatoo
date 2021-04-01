@@ -17,7 +17,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="card customCard success" *ngFor="let product of productList | filter : searchText | paginate: { itemsPerPage: 8, currentPage: p }; let i = index;" [ngClass]="{'gridViewCol': list == 'grid', 'listViewCol': list == 'list'}">
+            <div class="card customCard success" *ngFor="let product of productList | filter : searchText" [ngClass]="{'gridViewCol': list == 'grid', 'listViewCol': list == 'list'}">
                 <i class="fa fa-check"></i>
                 <h4 class="highlight">Delivery Address</h4>
                 <div class="col-md-6">
@@ -47,9 +47,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <pagination-controls (pageChange)="p = $event"></pagination-controls>
-            </div>
+
         </div>
     </div>
 

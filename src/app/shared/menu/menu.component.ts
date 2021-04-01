@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
   loginCred:string = "";
   public selectedIndex = 0;
   public appPages = [
@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
       url: "/home",
       id:""
     }
+    
     
   ];
   isItemAvailable = false;
@@ -40,7 +41,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.appService.userAdd.subscribe(data => {
       console.log(data);
-      if(data.role=='admin'){
+      if(data.role== 1){
         this.adminDropdown=true;
         console.log(data.role);
       }
@@ -100,12 +101,12 @@ export class MenuComponent implements OnInit {
 
 getUserAuth(){
   // let obj = JSON.parse(sessionStorage.getItem('userDetails'));
-  let obj = JSON.parse(this.cookieService.get('userDetails'));
+  let obj = this.cookieService.get('userDetails');
   console.log(this.cookieService.get('userDetails'))
   if(obj){ 
-  this.userDetailsAuth = obj;
+  this.userDetailsAuth = JSON.parse(obj);
   console.log(this.userDetailsAuth);
-  if(this.userDetailsAuth.role=='admin'){
+  if(this.userDetailsAuth.role==1){
     this.adminDropdown=true;
     console.log(this.userDetailsAuth.role);
   }
@@ -125,6 +126,7 @@ logout(){
   this.adminDropdown=false;
   this.loginCred = "";
   sessionStorage.removeItem('userDetails');
+  this.cookieService.delete('userDetails', '/');
   this.appService.userAuth([]);
   this.router.navigate(['/login']);
 }
@@ -180,7 +182,7 @@ getCart(){
       this.menuItem.forEach(item => {
         this.appPages.push({
           title: item.catName,
-          url: "/products",
+          url: "/home/product-list",
           id:item.catID
         })
       });
@@ -281,7 +283,7 @@ getCart(){
     this.appService.product = product;
     this.isItemAvailable = false;
     sessionStorage.setItem("productData",JSON.stringify(product));
-    this.router.navigate(['products/product-details']);
+    this.router.navigate(['home/product-details']);
   }
 
   tempcountCart:any = [];
@@ -339,12 +341,12 @@ getCart(){
 
 gotoCheckout(){
   this.showDropdown = false;
-  this.router.navigate(['products/checkout']); 
+  this.router.navigate(['home/checkout']); 
 }
 
 gotoProductPage(){
   this.showDropdown = false;
-  this.router.navigate(['products']); 
+  this.router.navigate(['home/product-list']); 
 }
 
 

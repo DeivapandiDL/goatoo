@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError,BehaviorSubject } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -73,6 +73,56 @@ getList(){
 getProductList(){
   return this.http
     .get(this.base_path+'product')
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+}
+
+
+getDeliveryBoyList(){
+  return this.http
+    .get(this.base_path+'getDeliveryBoyList')
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+}
+
+getdeliveryboy(id){
+  return this.http.get(this.base_path+'getdeliveryboy/'+id).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
+deliveryboyExist(phNO){
+  return this.http.get(this.base_path+'deliveryboyExist/'+phNO).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
+branchAdminExist(phNO){
+  return this.http.get(this.base_path+'branchAdminExist/'+phNO).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
+getbranchadmin(id){
+  return this.http.get(this.base_path+'getbranchadmin/'+id).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
+
+
+
+getBranchAdminList(){
+  return this.http
+    .get(this.base_path+'getBranchAdminList')
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -160,6 +210,45 @@ createCustomer(item): Observable<[]> {
       catchError(this.handleError)
     )
 }
+
+
+
+
+createDeliveryBoy(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded;text/plain; charset=utf-8');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+  console.log('add new product',data);
+ return this.http.post(this.base_path+'createDeliveryBoy',data,{headers: headers ,responseType: 'text'}).pipe(
+  retry(2),
+  catchError(this.handleError)
+) 
+}
+
+
+createBranchAdmin(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded;text/plain; charset=utf-8');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+  console.log('add new product',data);
+ return this.http.post(this.base_path+'createBranchAdmin',data,{headers: headers ,responseType: 'text'}).pipe(
+  retry(2),
+  catchError(this.handleError)
+) 
+}
+
+
+
+
+
 //get cart details
 getCart(){
   return this.http.get(this.base_path+'getCart').pipe(
@@ -294,6 +383,13 @@ editProduct(data){
 
 getWishlist(id){
   return this.http.get(this.base_path+'getWishlist/'+id).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
+getSubCategorybyCatId(id){
+  return this.http.get(this.base_path+'getSubCategorybyCatId/'+id).pipe(
     retry(2),
     catchError(this.handleError)
   )

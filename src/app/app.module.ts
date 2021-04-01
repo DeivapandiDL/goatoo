@@ -8,20 +8,32 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';  
 import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from '../app/search-pipe/filter.pipe';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ClickOutsideDirective } from 'src/app/outsideclick.directive';
+// import { ClickOutsideDirective } from 'src/app/outsideclick.directive';
 import { AppserviceService } from 'src/app/services/appservice.service';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MenuComponent } from './shared/menu/menu.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
-  declarations: [AppComponent,MenuComponent,FilterPipe,FooterComponent,ClickOutsideDirective],
+  declarations: [AppComponent,MenuComponent,FilterPipe,FooterComponent,
+    // ClickOutsideDirective
+  ],
   entryComponents: [],
-  imports: [BrowserModule,CommonModule, IonicModule.forRoot(), 
-    AppRoutingModule,ReactiveFormsModule,FormsModule,HttpClientModule,NgxPaginationModule],
+  imports: [
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatMenuModule,
+    BrowserModule,CommonModule, IonicModule.forRoot(), 
+    AppRoutingModule,ReactiveFormsModule,FormsModule,HttpClientModule, NoopAnimationsModule],
   providers: [
     StatusBar,
     SplashScreen,

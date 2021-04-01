@@ -14,6 +14,7 @@ const  multipart  =  require('connect-multiparty');
 
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
+     res.header('Access-Control-Allow-Origin', "http://localhost:3000");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header( 'Access-Control-Allow-Headers', 'Accept,Accept-Language,Content-Language,Content-Type');
     next();
@@ -78,6 +79,87 @@ app.post('/addCustomer', (req, res) => {
             console.log	(err);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+// create delivery boy
+
+// app.post('/createDeliveryBoy', (req, res) => {
+//     const val = req.body;
+//     val.status = 'false';
+//     val.createdDate = new Date();
+//     var sql= "INSERT INTO deliveryboy (firstname, lastname,email,phonenumber,alternatenumber,age,gender,education,aadhar,profile,status,createdDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+//     mysqlConnection.query(sql,[val.firstname,val.lastname,val.email,val.phonenumber,val.alternatenumber,val.age,val.gender,val.education,val.aadhar,val.profile,val.status,val.createdDate] , (err, rows, fields) => {
+//         if (!err){
+//             res.send("inserted successfully");         
+//         }
+//         else
+//             console.log (err);
+//     });
+// });
+
+
+app.post('/createDeliveryBoy', (req, res) => {
+ 
+console.log ('details::::',req.body);
+const val = req.body;
+    //     `firstname`, `lastname`, `email`, `phonenumber`, `alternatenumber`, `age`, `gender`, `education`, `aadhar`, `profile`, `status`, `createdDate`
+    // var sql= "INSERT INTO addproduct ( categoryID,subcategoryID,productName,productImage,productCount,productDescription,productRateSymbol,productRate,productOfferPercent,expiryDate) VALUES (?,?,?,?,?,?,?,?,?,?)";
+
+    // mysqlConnection.query(sql,[val.categoryID,val.subcategoryID,val.productName,val.productImage,val.productCount,val.productDescription,val.productRateSymbol,val.productRate,val.productOfferPercent,val.expiryDate] , (err, rows, fields) => {
+    //     if (!err){
+    //         res.write("product added successfully");
+
+    //     }
+    //     else
+    //         console.log ('error',err);
+    // });
+    
+
+
+});
+
+
+
+
+
+
+//get all addproduct datas  ex:/addproduct
+app.get('/getDeliveryBoyList', (req, res) => {
+    mysqlConnection.query('select * from deliveryboy', (err, rows, fields) => {
+        if (!err){
+            rows.sort(function(a,b){
+            return new Date(b.createdDate) - new Date(a.createdDate);
+        });
+            res.send(rows);
+        }
+        else{
+            console.log (err);
+        }
+    });
+});
+
+
+app.get('/activateDeliveryBoy/:id', (req, res) => {
+     mysqlConnection.query('UPDATE deliveryboy SET status = "1"  WHERE id=?', [req.params.id], (err, rows, fields) => {
+        if (!err)
+            res.send('success');
+        else
+            console.log (err);
+    });
+});
+
+
+
+
 
 
 //edit and update customer details
@@ -163,6 +245,19 @@ app.get('/getSubCategory', (req, res) =>{
             console.log	(err);
     });
 });
+
+// get particular subcategory by choose category id
+app.get('/getSubCategorybyCatId/:id', (req, res) =>{
+    mysqlConnection.query('select * from subcategory where catID =?', [req.params.id], (err, subcat, fields) => {
+        if (!err)
+            res.send(subcat);
+        else
+            console.log (err);
+    });
+});
+
+
+
 
 // get overall product with category and subcategory
 

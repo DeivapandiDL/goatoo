@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppserviceService } from '../../services/appservice.service'; 
-import * as CryptoJS from 'crypto-js';
 import { Router,NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
@@ -162,14 +161,7 @@ productArr:any = {};
     this.cartNumber = this.cartNumber + 1;
   }
   this.productArr = {'count':this.cartNumber,'productId':this.getProductList.productID};
-  var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(this.getProductStoreCount), 'thamdeva').toString();
-  sessionStorage.setItem("getProductCount::::::::::",ciphertext);
-  console.log(ciphertext);
-// Decrypt
-var bytes  = CryptoJS.AES.decrypt(ciphertext, 'thamdeva');
-var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
- 
-console.log(decryptedData);
+  
   
 }
 

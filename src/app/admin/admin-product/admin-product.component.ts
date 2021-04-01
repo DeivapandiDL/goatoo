@@ -41,9 +41,7 @@ lastCropperPosition: CropperPosition;
   fileUpload:any;
   imageCropped(event: ImageCroppedEvent) {
       this.croppedImage = event.base64;
-    
       console.log(this.croppedImage);
-
   }
   imageLoaded(image: HTMLImageElement) {
       // show cropper
