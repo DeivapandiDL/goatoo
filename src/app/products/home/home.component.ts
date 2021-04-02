@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,6 +26,9 @@ export class HomeComponent {
   userDetailsAuth:any = {};
   userLogin:boolean = false;
   purchaseProduct:any = [];
+  lat: number = 51.678418;
+  lng: number = 7.809007;
+  adminDropdown:boolean = false;
   @ViewChild("sliderWidth", { static: false }) sliderWidth: ElementRef;
   constructor(private cookieService: CookieService, private formBuilder: FormBuilder, private appService: AppserviceService, private router:Router) {
     let pr = JSON.parse(sessionStorage.getItem("getProductCount"));
@@ -43,6 +45,10 @@ export class HomeComponent {
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
       this.getCustomerProduct();
+    }
+    if(this.userDetailsAuth.role==1){
+      this.adminDropdown=true;
+      console.log(this.userDetailsAuth.role);
     }
   }
   }
@@ -94,6 +100,8 @@ export class HomeComponent {
       });
     this.getProducts();
     this.getUserDetails();
+
+    
 }
 
 
@@ -338,3 +346,4 @@ getWishlist(){
 
 
 }
+

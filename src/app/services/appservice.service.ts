@@ -119,6 +119,16 @@ getbranchadmin(id){
 
 
 
+location(){
+  return this.http
+    .get(this.base_path+'location')
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+}
+
+
 
 getBranchAdminList(){
   return this.http

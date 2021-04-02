@@ -10,7 +10,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FilterPipe } from '../app/search-pipe/filter.pipe';
 // import { ClickOutsideDirective } from 'src/app/outsideclick.directive';
 import { AppserviceService } from 'src/app/services/appservice.service';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MenuComponent } from './shared/menu/menu.component';
@@ -33,7 +32,9 @@ import { MatMenuModule} from '@angular/material/menu';
     MatButtonModule,
     MatMenuModule,
     BrowserModule,CommonModule, IonicModule.forRoot(), 
-    AppRoutingModule,ReactiveFormsModule,FormsModule,HttpClientModule, NoopAnimationsModule],
+    AppRoutingModule,ReactiveFormsModule,FormsModule,HttpClientModule, 
+    NoopAnimationsModule
+   ],
   providers: [
     StatusBar,
     SplashScreen,

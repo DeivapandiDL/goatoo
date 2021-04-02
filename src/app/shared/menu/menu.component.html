@@ -1,5 +1,5 @@
 <ion-header class="header">
-    <div class="container dFlex ion-align-items-center ion-justify-content-between plr-15">
+    <div class="container-fluid dFlex ion-align-items-center ion-justify-content-between plr-15">
         <a class="logo" routerLink="/home">
             <img src="../../../assets/images/logo.png">
         </a>
@@ -69,6 +69,7 @@
             </div>
         </div>
     </div>
+    <!-- <nav [class.sideMenu]="adminDropdown"> -->
     <nav>
         <div class="flexNav ">
             <!-- <ion-menu-toggle class="menuList" *ngFor="let p of appPages; let i=i ndex ">
@@ -88,16 +89,16 @@
                         <li class="nav-item" *ngIf="!adminDropdown">
                             <a class="nav-link" routerLink="/admin/career">Career</a>
                         </li>
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <!-- <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/createBranchAdmin">Create Branch Admin</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/branchAdminList">Branch Admin List</a>
                         </li>
 
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <!-- <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/addProduct">Add New Product</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/AdminProductList">Product List</a>
                         </li>

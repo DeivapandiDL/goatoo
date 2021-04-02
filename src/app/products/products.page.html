@@ -44,45 +44,6 @@
                                     <ng-container *ngFor="let products of subcat.product;let i = index;">
                                         <ng-container *ngIf="subcat.subCatID == subcatSetID || subcatSetID == 0;">
                                             <app-child-product class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
-                                            <!-- <div>
-                                                <div class="gridProduct">
-                                                    <a class="wishlist">
-                                                        <img *ngIf="!products.wishlist" (click)="addWishlist(products.productID)" src="../../assets/images/heart_white.png">
-                                                        <img *ngIf="products.wishlist" (click)="deleteWishlist(products.productID)" src="../../assets/images/heart_red.png">
-                                                    </a>
-                                                    <a class="ProductClick" (click)="gotoProductDesc(products.productName,products.productID)">
-                                                        <img *ngIf="products.productImage == '' " src="../../assets/images/product/1.jpg">
-                                                        <img *ngIf="products.productImage != '' " src="{{products.productImage}}">
-
-                                                    </a>
-                                                    <div class="productDesc" (click)="gotoProductDesc(products.productName,products.productID)">
-                                                        <div class="descProduct">
-                                                            <h4 matTooltip="{{products.productName}}">{{products.productName}}</h4>
-                                                            <p>{{products.productDescription | slice:0:50}}...</p>
-                                                        </div>
-                                                        <div class="fewLeftproduct" *ngIf="products.productCount < 4 && products.productCount > 0">
-                                                            ! hurry few left
-                                                        </div>
-                                                        <div class="outStackproduct" *ngIf="products.productCount == 0">
-                                                            Out of Stock
-                                                        </div>
-                                                        <div class="priceGrid">
-                                                            <div class="fewLeftproduct" *ngIf="products.productCount < 4 && products.productCount > 0">
-                                                                ! hurry few left
-                                                            </div>
-                                                            <div class="outStackproduct" *ngIf="products.productCount == 0">
-                                                                Out of Stock
-                                                            </div>
-                                                            <span class="price" *ngIf="!products.productOfferPercent || products.productOfferPercent == 0">{{products.productRateSymbol}} {{products.productRate}}</span>
-                                                            <span class="offerPrice" *ngIf="products.productOfferPercent && products.productOfferPercent > 0"> 
-                                                                <span class="offerPriceCrash"> {{products.productRateSymbol}}{{products.productRate}}</span>
-                                                            <span class="per"> {{products.productOfferPercent}}% off </span>
-                                                            <span class="priceOfferGreen"> {{products.productRateSymbol}}{{(products.productRate - (products.productOfferPercent * products.productRate / 100)).toFixed(0)}}</span>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
                                         </ng-container>
                                         <ng-container *ngIf="!subcatSetIDBoolean">
                                             <h2 class="text-center"> No Product Available</h2>
@@ -103,7 +64,6 @@
             <div class="row">
                 <div class="col-md-3">
                     <a><img src="../../../assets/images/logo.png"></a>
-
                 </div>
                 <div class="col-md-3">
                     <h4 class="highlight">STAY CONNECTED</h4>

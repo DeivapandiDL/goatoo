@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table'
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import swal from 'sweetalert2';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -10,6 +13,12 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./admin-product-list.component.scss'],
 })
 export class AdminProductListComponent implements OnInit {
+
+  displayedColumns = ["productName", "productDescription","quantity","productRate","createdDate","expiryDate","activate","productID"];
+  dataSource: any = [];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private cookieService:CookieService,private appService: AppserviceService,private router:Router) { }
   getProducts:any = [];
@@ -21,17 +30,25 @@ export class AdminProductListComponent implements OnInit {
     this.appService.getProductList().subscribe(data =>{
       if(data){
         this.getProducts = data;
+        this.dataSource = new MatTableDataSource(this.getProducts);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         console.log(this.getProducts);
       }
     })
   }
-
-  sort(colName) {
-    console.log(colName);
-    this.getProducts.sort((a, b) =>
-      a[colName] > b[colName] ? 1 : a[colName] < b[colName] ? -1 : 0
-    );
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
+
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+  
 deleteId:number;
 deletedProductName:string;
 DeleteProduct(id,name){ 

@@ -70,8 +70,7 @@ export class ChildProductComponent implements OnInit {
       
     })
   }
-
-  getWishlistData:any = [];
+getWishlistData:any = [];
 getWishlist(){
   this.appService.getWishlist(this.userDetailsAuth.id).subscribe(data =>{
     console.log(data);

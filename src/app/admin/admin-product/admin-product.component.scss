@@ -17,3 +17,23 @@
     font-size: 12px !important;
     padding: 2px 4px 2px 4px !important;
 }
+
+.uploadPreImg input {
+    display: none
+}
+
+.imagecropGrid {
+    max-width: 300px;
+}
+
+.croppedPreview {
+    margin: 0 0 0 10px;
+    box-shadow: 0 0 4px;
+    padding: 5px;
+}
+
+.kg {
+    position: absolute;
+    margin-top: -28px;
+    right: 20px;
+}

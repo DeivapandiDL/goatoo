@@ -1,3 +1,4 @@
+<!-- <div class="paddTop greyBg" [class.asideGrid]="adminDropdown"> -->
 <div class="paddTop">
     <section>
         <div class="container imgSlider-container">
@@ -129,6 +130,17 @@
               </ng-container>
           </div>
       </div> -->
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <agm-map [latitude]="lat" [longitude]="lng">
+                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    </agm-map>
+                </div>
+            </div>
+        </div>
     </section>
     <section class="footer">
         <div class="container">

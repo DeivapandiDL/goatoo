@@ -33,9 +33,10 @@
                 <div class="outStackproduct" *ngIf="products.productCount == 0">
                     Out of Stock
                 </div>
+                <div class="weightKG">{{products.productWeight}}</div>
                 <span class="price" *ngIf="!products.productOfferPercent || products.productOfferPercent == 0">{{products.productRateSymbol}} {{products.productRate}}</span>
                 <span class="offerPrice" *ngIf="products.productOfferPercent && products.productOfferPercent > 0"> 
-                  <span class="offerPriceCrash"> {{products.productRateSymbol}}{{products.productRate}}</span>
+                <span class="offerPriceCrash"> {{products.productRateSymbol}}{{products.productRate}}</span>
                 <span class="per"> {{products.productOfferPercent}}% off </span>
                 <span class="priceOfferGreen"> {{products.productRateSymbol}}{{(products.productRate - (products.productOfferPercent * products.productRate / 100)).toFixed(0)}}</span>
                 </span>

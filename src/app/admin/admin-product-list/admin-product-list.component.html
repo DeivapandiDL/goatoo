@@ -6,11 +6,68 @@
                     <div class="addProductTable">
                         <h2 class="py-4">Product List</h2>
                         <div class="row fxRight">
-                            <div class="form-group mb-4 col-md-4">
-                                <input class="form-control" type="text" [(ngModel)]="searchText" placeholder="Search">
+                            <div class="form-group mb-4 col-md-6">
+                                <div class="row ">
+                                    <div class="col-4">
+                                        <a class="btn btn-danger mr-15 btn-sm" routerLink="/admin/addProduct">Create New Product</a>
+                                    </div>
+                                    <div class="col-8">
+                                        <mat-form-field class="w100percent">
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <table class="table">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-table [dataSource]="dataSource" matSort>
+                                    <ng-container matColumnDef="productName">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.productName}}</mat-cell>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="productDescription">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <p class="truncTd" matTooltip="{{row.productDescription}}" placement="top">{{row.productDescription}}</p>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="quantity">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.quantity}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="productRate">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.productRate}} {{row.productRateSymbol}}</mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="createdDate">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.createdDate}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="expiryDate">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Expiry Date </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.expiryDate}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="activate">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.status}} </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="productID">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <span (click)="EditProduct(product.productID)" class="material-icons">edit</span>
+                                            <span (click)="DeleteProduct(product.productID,product.productName)" class="material-icons">delete</span>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                                    </mat-row>
+                                </mat-table>
+                                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                            </div>
+                        </div>
+                        <!-- <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col" (click)="sort(col.propertyName)">#</th>
@@ -46,7 +103,7 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
 
                         <ng-template #noResults>
                             <p>No results found for "{{searchText}}".</p>

@@ -45,11 +45,15 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Count <span class="star">*</span></label>
-                                            <input type="text" formControlName="productCount" maxlength="5" (keypress)="numberOnly($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productCount.errors }" />
-                                            <div *ngIf="submitted && f.productCount.errors" class="invalid-feedback">
+                                            <label>Location <span class="star">*</span></label>
+                                            <select formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                                                <option value="">Select</option>
+                                                <option [value]="loc.id" *ngFor="let loc of getLocation">{{loc.locationName}}</option>
+                                            </select>
+                                            <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
                                                 <div *ngIf="f.productCount.errors.required">Count is required</div>
                                             </div>
                                         </div>
@@ -57,12 +61,36 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Price Symbol <span class="star">*</span></label>
-                                            <input type="text" formControlName="productRateSymbol" maxlength="1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productRateSymbol.errors }" />
-                                            <div *ngIf="submitted && f.productRateSymbol.errors" class="invalid-feedback">
-                                                <div *ngIf="f.productRateSymbol.errors.required">Rate Symbol is required</div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Count <span class="star">*</span></label>
+                                                    <input type="text" formControlName="productCount" maxlength="5" (keypress)="numberOnly($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productCount.errors }" />
+                                                    <div *ngIf="submitted && f.productCount.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.productCount.errors.required">Count is required</div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Price Symbol <span class="star">*</span></label>
+                                                    <input type="text" formControlName="productRateSymbol" maxlength="1" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productRateSymbol.errors }" />
+                                                    <div *ngIf="submitted && f.productRateSymbol.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.productRateSymbol.errors.required">Rate Symbol is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Netweight <span class="star">*</span></label>
+                                                    <input type="text" formControlName="productWeight" maxlength="5" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productWeight.errors }" />
+                                                    <span class="kg">Grams</span>
+                                                    <div *ngIf="submitted && f.productWeight.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.productWeight.errors.required">Netweight is required</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -86,16 +114,34 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Expire Date<span class="star">*</span></label>
-                                            <!-- <input type="text" formControlName="expiryDate" class="form-control"> -->
-                                            <div class="input-box-container">
-                                                <input class="input-box form-control" [min]="minDate" angular-mydatepicker name="mydate" (click)="dp.toggleCalendar()" [(ngModel)]="model" [options]="myDpOptions" formControlName="expiryDate" #dp="angular-mydatepicker" />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Expire Date<span class="star">*</span></label>
+                                                    <!-- <input type="text" formControlName="expiryDate" class="form-control"> -->
+                                                    <div class="input-box-container">
+                                                        <input class="input-box form-control" [min]="minDate" angular-mydatepicker name="mydate" (click)="dp.toggleCalendar()" [(ngModel)]="model" [options]="myDpOptions" formControlName="expiryDate" #dp="angular-mydatepicker" />
+                                                    </div>
+                                                    <div *ngIf="submitted && f.expiryDate.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.expiryDate.errors.required">Expire Date required</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div *ngIf="submitted && f.expiryDate.errors" class="invalid-feedback">
-                                                <div *ngIf="f.expiryDate.errors.required">Expire Date required</div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <select formControlName="status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                                                            <option value="">Select</option>
+                                                            <option [value]="0">De Activate</option>
+                                                            <option [value]="1">Activate</option>
+                                                        </select>
+                                                    <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.status.errors.required">Category is required</div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -112,20 +158,23 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputGroupFile01">Upload Product Image <span class="star">*</span></label>
-                                            <!-- <input (change)="fileChange($event,$event.target.files)" type="file" id="inputGroupFile01" formControlName="productImage" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productImage.errors}" /> -->
-                                            <input type="file" (change)="fileChangeEvent($event)" formControlName="productImage" class="form-control" />
+                                            <label for="uploadProductImage" class="uploadPreImg">Upload Product Image <span class="star">*</span>
+                                            <img src="../../../assets/images/spkpreview.jpg">
+                                            <input id="uploadProductImage" type="file" (change)="fileChangeEvent($event)" formControlName="productImage" class="form-control" />
+                                            </label>
+                                            <img *ngIf="croppedImage != ''" [src]="croppedImage" class="croppedPreview" />
                                             <div *ngIf="submitted && f.productImage.errors" class="invalid-feedback">
                                                 <div *ngIf="f.productImage.errors.required">Image is required</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-                                            (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
-                                        <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
-                                        <img [src]="croppedImage" />
-                                        <!-- <img width="100%" class="image imgPreview" *ngIf="imageUrl != ''" [src]="imageUrl"> -->
+                                        <div class="imagecropGrid">
+                                            <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                                                (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
+                                            <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
+                                            <!-- <img width="100%" class="image imgPreview" *ngIf="imageUrl != ''" [src]="imageUrl"> -->
+                                        </div>
                                     </div>
                                 </div>
 

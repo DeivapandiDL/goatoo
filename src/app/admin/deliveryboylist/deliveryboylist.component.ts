@@ -57,6 +57,8 @@ export class DeliveryboylistComponent implements OnInit {
         this.List = data;
         console.log(this.List);
         this.dataSource = new MatTableDataSource(this.List);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }
     })
   }

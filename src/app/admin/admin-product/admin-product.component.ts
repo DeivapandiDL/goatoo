@@ -77,17 +77,30 @@ lastCropperPosition: CropperPosition;
       categoryID : ['', Validators.required],
       subcategoryID: ['', Validators.required],
       productCount: ['', Validators.required],
+      productWeight: ['', Validators.required],
       productImage: ['', Validators.required],
       productDescription: ['', Validators.required],
       productRateSymbol: ['', Validators.required],
       productRate: ['', Validators.required],
       expiryDate:['',Validators.required],
       productOfferPercent: ['', Validators.required],
+      status: ['', Validators.required],
+      location:['', Validators.required],
       // image:['']
       
   });
+
+  this.location();
   this.getCategoryList();
   this.getSubCategory();
+  }
+getLocation:any = [];
+
+  location(){
+    this.appservice.location().subscribe(data =>{
+      console.log(data);
+      this.getLocation = data;
+    })
   }
 
   getProductEdit(id){

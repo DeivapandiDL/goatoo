@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { IonicModule } from '@ionic/angular';
 import { CookieService } from 'ngx-cookie-service';
@@ -15,15 +15,21 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { ChildProductComponent } from './child-product/child-product.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AgmCoreModule } from '@agm/core';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     ProductsPageRoutingModule,
     MatToolbarModule,
     MatTooltipModule,
-    
+    AgmCoreModule.forRoot({
+      // please get your own API key here:
+      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+      apiKey: 'AIzaSyDCRrAVmMLdTb8aiqiXNtBWmXClbXXTtM8'
+    })
   ],
   declarations: [ProductsPage,
     ProductDetailsComponent,

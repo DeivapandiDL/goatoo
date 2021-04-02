@@ -232,3 +232,24 @@ ion-menu-toggle {
 .hoverMenu:hover .displaynone {
     display: block;
 }
+
+// code side menu 
+nav.sideMenu {
+    width: 240px;
+    position: fixed;
+    bottom: 0;
+    top: 73px;
+    height: calc(100% - 73px);
+}
+
+nav.sideMenu .flexNav {
+    max-width: 100%;
+    display: block;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    justify-content: flex-start;
+}
+
+nav.sideMenu .flexNav .navbar-expand-sm .navbar-nav {
+    flex-direction: column;
+}
