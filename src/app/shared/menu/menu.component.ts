@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { CookieService } from 'ngx-cookie-service';
+import { MatDialog } from '@angular/material/dialog';
+import { LocationComponent } from '../location/location.component';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -21,8 +23,21 @@ export class MenuComponent {
   ];
   isItemAvailable = false;
   items = [];
+  locId:string = "";
+  locationName:string = "";
   tempCountSet:any = [];
-  constructor(private router:Router,private cookieService:CookieService,private appService:AppserviceService) { 
+  constructor(public dialog: MatDialog,private router:Router,private cookieService:CookieService,private appService:AppserviceService) { 
+    
+    let locId = this.cookieService.get('location');
+    if(locId){
+      let loc = JSON.parse(locId);
+      this.locId = loc.id;
+      this.locationName = loc.locationName;
+      console.log(this.locationName);
+    }
+    else{
+      this.openDialog();  
+    }
     this.getUserAuth();
     let temp = JSON.parse(sessionStorage.getItem("getProductCount"));
     if(temp){
@@ -87,6 +102,24 @@ export class MenuComponent {
       this.getProductCountDetails();
       this.getCart();
   }
+
+
+  openDialog(): void {
+    this.appService.location().subscribe(res =>{
+      if(res) { 
+    let dialogRef = this.dialog.open(LocationComponent, {
+      width: "300px",
+      data: res,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.locId = this.cookieService.get("location");
+    });
+  }
+  })
+  }
+
   closeDropdown(){
     this.profileDropdown = false;
   }

@@ -80,6 +80,8 @@ getProductList(){
 }
 
 
+
+
 getDeliveryBoyList(){
   return this.http
     .get(this.base_path+'getDeliveryBoyList')
@@ -279,6 +281,21 @@ addCart(data){
   headers.append('Access-Control-Allow-Credentials','true');
   headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
  return this.http.post(this.base_path+'addCart',data,{headers: headers}).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
+
+changeProductStatus(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+ return this.http.post(this.base_path+'changeProductStatus',data,{headers: headers}).pipe(
   retry(2),
   catchError(this.handleError)
 )

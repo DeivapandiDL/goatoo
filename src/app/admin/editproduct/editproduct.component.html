@@ -96,16 +96,23 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="inputGroupFile01">Upload Product Image <span class="star">*</span></label>
-                                            <input (change)="fileChange($event,$event.target.files)" type="file" id="inputGroupFile01" formControlName="productImage" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productImage.errors}" />
+                                            <label for="uploadProductImage" class="uploadPreImg">Upload Product Image <span class="star">*</span>
+                                            <img src="../../../assets/images/spkpreview.jpg">
+                                            <input id="uploadProductImage" type="file" (change)="fileChangeEvent($event)" formControlName="productImage" class="form-control" />
+                                            </label>
+                                            <img *ngIf="croppedImage != ''" [src]="croppedImage" class="croppedPreview" />
                                             <div *ngIf="submitted && f.productImage.errors" class="invalid-feedback">
                                                 <div *ngIf="f.productImage.errors.required">Image is required</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <img src="../../../assets/images/{{getProduct.categoryID}}/{{getProduct.productImage}}">
-                                        <!-- <img width="100%" class="image imgPreview" *ngIf="imageUrl" [src]="imageUrl"> -->
+                                        <div class="imagecropGrid">
+                                            <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                                                (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
+                                            <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
+                                            <!-- <img width="100%" class="image imgPreview" *ngIf="imageUrl != ''" [src]="imageUrl"> -->
+                                        </div>
                                     </div>
                                 </div>
 

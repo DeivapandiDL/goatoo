@@ -15,7 +15,13 @@ export class ProductsPage implements OnInit {
   // childToParent(name){
   //   this.master=name;
   // }
+  locId:string = '';
   constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router) {
+    let locId = this.cookieService.get('location');
+    if(locId){
+      let loc = JSON.parse(locId);
+      this.locId = loc.id;
+    }
     this.getUserAuth();
    }
    userLogin:boolean = false;
@@ -37,8 +43,12 @@ export class ProductsPage implements OnInit {
   productListData:any = [];
   ngOnInit() {
     this.appService.menuChange.subscribe(menu => {
+      console.log(menu);
+      this.subCatList = [];
+    this.productList = [];
     this.menuId = menu;
     this.getCategoryProduct();
+    this.getSubCategory();
     });
     this.getCategoryProduct();
     this.getProducts();
@@ -78,6 +88,7 @@ productArr:any = {};
 subCatList:any = [];
 productLoadTrue:boolean = false;
 getSubCategory(){
+  this.subCatList = [];
   if(Object.keys(this.menuId).length > 0){ 
     this.menuName = this.menuId.name;
   }

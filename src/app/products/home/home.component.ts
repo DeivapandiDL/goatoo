@@ -29,8 +29,15 @@ export class HomeComponent {
   lat: number = 51.678418;
   lng: number = 7.809007;
   adminDropdown:boolean = false;
+  locId:string = '';
   @ViewChild("sliderWidth", { static: false }) sliderWidth: ElementRef;
   constructor(private cookieService: CookieService, private formBuilder: FormBuilder, private appService: AppserviceService, private router:Router) {
+    let locId = this.cookieService.get('location');
+    if(locId){
+      let loc = JSON.parse(locId);
+      this.locId = loc.id;
+    }
+    
     let pr = JSON.parse(sessionStorage.getItem("getProductCount"));
     this.getUserAuth();
     if(pr){ 

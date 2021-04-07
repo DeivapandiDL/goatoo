@@ -8,6 +8,7 @@
             <ion-list *ngIf="isItemAvailable" class="ionSearch">
                 <ion-item *ngFor="let item of items" (click)="gotoProduct(item)">{{ item.productName }}</ion-item>
             </ion-list>
+            <a class="map" (click)="openDialog()"><span class="material-icons">place</span> {{locationName}}</a>
         </div>
         <div class="loginNav dFlex searchNav">
             <a (click)="loginCredFun()" *ngIf="loginCred == ''" class="pointer">Login</a>
@@ -21,13 +22,6 @@
                     <a (click)="logout()">Logout</a>
                 </div>
             </mat-menu>
-
-            <!-- <div class="dropdownLoginMenu" *ngIf="profileDropdown" (clickOutside)="toggleLoginMenu()">
-                <a (click)="closeDropdown()" routerLink="/login/editProfile">Edit Profile</a>
-                <a (click)="closeDropdown()" routerLink="/products/order-history">Order History</a>
-                <a (click)="closeDropdown()" routerLink="products/wishlist">wishlist</a>
-                <a (click)="logout()">Logout</a>
-            </div> -->
             <div class="cartIcon">
                 <a *ngIf="count == 0">
                     <ion-icon ios="ios-cart" md="md-cart"></ion-icon>
@@ -80,8 +74,11 @@
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" *ngIf="adminDropdown">
+                            <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+                        </li>
                         <li class="nav-item active" *ngFor="let menu of appPages;let i = index;">
-                            <a class="nav-link" (click)="getMenu(i,menu.id,menu.title,menu.url)">{{menu.title}}  <ion-icon ios="ios-arrow-dropdown" md="md-arrow-dropdown"></ion-icon></a>
+                            <a class="nav-link" (click)="getMenu(i,menu.id,menu.title,menu.url)">{{menu.title}} </a>
                         </li>
                         <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/deliveryboylist">Delivery Boys</a>
@@ -95,12 +92,8 @@
                         <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/branchAdminList">Branch Admin List</a>
                         </li>
-
-                        <!-- <li class="nav-item" *ngIf="adminDropdown">
-                            <a class="nav-link" routerLink="/admin/addProduct">Add New Product</a>
-                        </li> -->
                         <li class="nav-item" *ngIf="adminDropdown">
-                            <a class="nav-link" routerLink="/admin/AdminProductList">Product List</a>
+                            <a class="nav-link" routerLink="/admin/AdminProductList">Admin Product List</a>
                         </li>
                         <li class="nav-item" *ngIf="adminDropdown">
                             <a class="nav-link" routerLink="/admin/customer-list">Customer List</a>

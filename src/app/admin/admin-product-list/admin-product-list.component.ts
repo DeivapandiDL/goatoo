@@ -22,6 +22,7 @@ export class AdminProductListComponent implements OnInit {
 
   constructor(private cookieService:CookieService,private appService: AppserviceService,private router:Router) { }
   getProducts:any = [];
+  myFlagForSlideToggle:boolean = false;
   ngOnInit() {
     this.getProductList();
   }
@@ -42,6 +43,26 @@ export class AdminProductListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+
+
+  changeStatus(status,id){
+    console.log(status);
+
+    let data = {
+      status:null,
+      productID:id
+    }
+    if(status == true){
+      data.status = 0
+    }
+    else if(status == false){
+      data.status = 1
+    }    
+    this.appService.changeProductStatus(data).subscribe(data =>{
+      console.log(data);
+      this.getProductList();
+    })
+  }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

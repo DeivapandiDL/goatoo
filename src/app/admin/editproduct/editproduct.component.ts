@@ -4,19 +4,45 @@ import { HttpClient } from '@angular/common/http';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ImageCroppedEvent, base64ToFile,ImageCropperComponent, CropperPosition} from 'ngx-image-cropper';
+import swal from 'sweetalert2';
 @Component({
   selector: 'app-editproduct',
   templateUrl: './editproduct.component.html',
   styleUrls: ['./editproduct.component.scss'],
 })
-export class EditproductComponent implements OnInit {
+export class EditproductComponent {
   registerProduct: FormGroup;
   submitted = false;
   getProduct:any = {};
   uploadedFiles: Array < File > ;
   constructor(private cookieService:CookieService,private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropperHeight: any = ''; cropperWidth: any = '';
+getCropper:Blob;
+lastCroppedImage: any;
+lastCropperPosition: CropperPosition;
 
-  ngOnInit() {
+  fileChangeEvent(event: any): void {
+      this.imageChangedEvent = event;
+  }
+  fileUpload:any;
+  imageCropped(event: ImageCroppedEvent) {
+      this.croppedImage = event.base64;
+      console.log(this.croppedImage);
+  }
+  imageLoaded(image: HTMLImageElement) {
+      // show cropper
+  }
+  cropperReady() {
+      // cropper ready
+  }
+  loadImageFailed() {
+      // show message
+  }
+
+  ionViewWillEnter() {
     if(this.appservice.adminProductId != ''){
       console.log(this.appservice.adminProductId);
       this.getProductEdit(this.appservice.adminProductId);
@@ -45,6 +71,7 @@ export class EditproductComponent implements OnInit {
       if(data){ 
       this.getProduct = data[0];
       console.log('product id',this.getProduct);
+      this.croppedImage = this.getProduct.productImage ? this.getProduct.productImage : '';
       this.editProductBoolean = true;
       }
     })
@@ -153,7 +180,16 @@ cat='';
          this.appservice.editProduct(this.getProduct).subscribe(data => {
           console.log('product details:::',data);
           if(data == 'true'){
-            this.router.navigate(['admin/AdminProductList']);
+            swal({
+              title: "Product Updated Successfully",
+              type: 'success',
+              showConfirmButton: true,
+              showCancelButton: false    
+            })
+            .then((willDelete) => {
+              this.router.navigate(['admin/AdminProductList']);
+            });
+            
           }
           
       })

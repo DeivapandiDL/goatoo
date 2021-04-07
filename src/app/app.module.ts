@@ -13,6 +13,7 @@ import { AppserviceService } from 'src/app/services/appservice.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MenuComponent } from './shared/menu/menu.component';
+import { LocationComponent } from './shared/location/location.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,10 +23,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
-  declarations: [AppComponent,MenuComponent,FilterPipe,FooterComponent,
+  declarations: [AppComponent,MenuComponent,FilterPipe,FooterComponent,LocationComponent
     // ClickOutsideDirective
   ],
-  entryComponents: [],
+  entryComponents: [LocationComponent],
   imports: [
     MatDialogModule,
     MatInputModule,

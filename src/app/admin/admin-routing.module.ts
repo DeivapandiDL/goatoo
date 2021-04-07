@@ -15,6 +15,7 @@ import { BranchAdminComponent } from './branch-admin/branch-admin.component';
 import { BranchadminlistComponent } from './branchadminlist/branchadminlist.component';
 import { BranchadmineditComponent } from './branchadminedit/branchadminedit.component';
 import { EditDeliveryboyComponent } from './edit-deliveryboy/edit-deliveryboy.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 const routes: Routes = [
   {
     path: '',
@@ -71,7 +72,12 @@ const routes: Routes = [
   {
     path:'editbranchadmin/:id',
     component:BranchadmineditComponent
+  },
+  {
+    path:'dashboard',
+    component:DashboardComponent
   }
+
 
 
 ];

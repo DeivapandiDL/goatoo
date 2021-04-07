@@ -19,6 +19,7 @@ import { BranchAdminComponent } from './branch-admin/branch-admin.component';
 import { BranchadminlistComponent } from './branchadminlist/branchadminlist.component';
 import { EditDeliveryboyComponent } from './edit-deliveryboy/edit-deliveryboy.component';
 import { BranchadmineditComponent } from './branchadminedit/branchadminedit.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminPage } from './admin.page';
 // import { BrowserModule } from '@angular/platform-browser';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
@@ -29,6 +30,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   imports: [
     // BrowserModule,
@@ -44,7 +47,9 @@ import {MatInputModule} from '@angular/material/input';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    ChartsModule,
+    MatSlideToggleModule
   ],
   declarations: [
     AdminPage,
@@ -62,6 +67,7 @@ import {MatInputModule} from '@angular/material/input';
     MailerComponent,
     CreateSubCategoryComponent,
     PurchasedListComponent,
+    DashboardComponent,
     CustomerListComponent],
   providers: [CookieService]
 })

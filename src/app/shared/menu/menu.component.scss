@@ -126,6 +126,19 @@ ion-menu-toggle {
 .searchNav {
     position: relative;
     align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.searchNav a.map {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.searchNav a.map span {
+    margin-right: 5px;
+    cursor: pointer;
 }
 
 .ionSearch .item {

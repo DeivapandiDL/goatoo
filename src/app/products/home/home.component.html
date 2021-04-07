@@ -28,38 +28,9 @@
                         </div>
                         <div class="row">
                             <ng-container *ngFor="let products of category.product;let i = index;">
-                                <!-- <div class="col-md-3" *ngIf="i < 4">
-                                    <div class="gridProduct">
-                                        <a class="wishlist">
-                                            <img *ngIf="!products.wishlist" (click)="addWishlist(products.productID)" src="../../assets/images/heart_white.png">
-                                            <img *ngIf="products.wishlist" (click)="deleteWishlist(products.productID)" src="../../assets/images/heart_red.png">
-                                        </a>
-                                        <a class="ProductClick" (click)="gotoProductDesc(products.productName,products.productID)">
-                                            <img *ngIf="products.productImage == '' " src="../../assets/images/product/1.jpg">
-                                            <img *ngIf="products.productImage != '' " src="{{products.productImage}}">
-                                        </a>
-                                        <div class="productDesc" (click)="gotoProductDesc(products.productName,products.productID)">
-                                            <h4 class="truncText" matTooltip="{{products.productName}}">{{products.productName}}</h4>
-                                            <div class="descProduct">
-                                                {{products.productDescription | slice:0:50}}... </div>
-                                            <div class="priceGrid">
-                                                <div class="fewLeftproduct" *ngIf="products.productCount < 4 && products.productCount > 0">
-                                                    ! hurry few left
-                                                </div>
-                                                <div class="outStackproduct" *ngIf="products.productCount == 0">
-                                                    Out of Stock
-                                                </div>
-                                                <span class="price" *ngIf="!products.productOfferPercent || products.productOfferPercent == 0">{{products.productRateSymbol}} {{products.productRate}}</span>
-                                                <span class="offerPrice" *ngIf="products.productOfferPercent && products.productOfferPercent > 0"> 
-                                                  <span class="offerPriceCrash"> {{products.productRateSymbol}}{{products.productRate}}</span>
-                                                <span class="per"> {{products.productOfferPercent}}% off </span>
-                                                <span class="priceOfferGreen"> {{products.productRateSymbol}}{{(products.productRate - (products.productOfferPercent * products.productRate / 100)).toFixed(0)}}</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-                                <app-child-product class="col-md-3" *ngIf="i < 4" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
+                                <ng-container *ngIf="products.location == locId">
+                                    <app-child-product class="col-md-3" *ngIf="i < 4" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
+                                </ng-container>
                             </ng-container>
                         </div>
                     </ng-container>

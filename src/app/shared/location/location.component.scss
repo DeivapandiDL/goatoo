@@ -1,0 +1,14 @@
+.locationList {
+    display: flex;
+    flex-direction: column
+}
+
+.locationList label a {
+    display: block;
+    background: #9c1a2c;
+    text-align: center;
+    color: #fff;
+    margin: 0 0 6px 0;
+    padding: 4px 0 5px 0;
+    cursor: pointer;
+}

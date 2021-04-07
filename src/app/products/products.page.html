@@ -43,7 +43,9 @@
                                 <div class="row">
                                     <ng-container *ngFor="let products of subcat.product;let i = index;">
                                         <ng-container *ngIf="subcat.subCatID == subcatSetID || subcatSetID == 0;">
-                                            <app-child-product class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
+                                            <ng-container *ngIf="products.location == locId">
+                                                <app-child-product class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}" [childToMaster]=products (childToParent)="childToParent($event)"></app-child-product>
+                                            </ng-container>
                                         </ng-container>
                                         <ng-container *ngIf="!subcatSetIDBoolean">
                                             <h2 class="text-center"> No Product Available</h2>

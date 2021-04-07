@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Choose Your Location</h1>
+<div mat-dialog-content>
+    <div class="locationList">
+        <label *ngFor="let loc of data">
+    <a (click)="getLoc(loc)">{{loc.locationName}}</a>
+  </label>
+    </div>
+</div>

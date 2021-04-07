@@ -33,3 +33,23 @@
     display: flex;
     margin: 0 0 0 10px;
 }
+
+.buttonToggleSwitch {
+    width: 180px;
+    min-width: 135px;
+}
+
+.buttonToggleSwitch button {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.buttonToggleSwitch button.activeBtnStatus {
+    background: #dc3545;
+    color: #fff;
+}
+
+.fxCenter {
+    align-items: center;
+}
