@@ -10,7 +10,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                                        <input type="text" formControlName="name" maxlength="20" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
                                         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                                             <div *ngIf="f.name.errors.required">Name is required</div>
                                         </div>
@@ -19,7 +19,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                                        <input type="text" formControlName="email" maxlength="30" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
                                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                             <div *ngIf="f.email.errors.required">Email is required</div>
                                             <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
@@ -29,7 +29,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                        <input [type]="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                        <a class="pwdEye" (click)="onClick()">
+                                            <ion-icon name="eye" *ngIf="!show"></ion-icon>
+                                            <ion-icon name="eye-off" *ngIf="show"></ion-icon>
+                                        </a>
                                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                                             <div *ngIf="f.password.errors.required">Password is required</div>
                                         </div>
@@ -39,19 +43,22 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" formControlName="phonenumber" class="form-control" (keyup)="branchAdminExist($event)" [ngClass]="{ 'is-invalid': submitted && f.phonenumber.errors }" />
+                                        <input type="text" formControlName="phonenumber" class="form-control" maxlength="11" minlength="10" (keyup)="branchAdminExist($event.target.value)" [ngClass]="{ 'is-invalid': submitted && f.phonenumber.errors }" />
                                         <div *ngIf="submitted && f.phonenumber.errors" class="invalid-feedback">
                                             <div *ngIf="f.phonenumber.errors.required">Phone Number</div>
                                         </div>
                                         <div *ngIf="phoneBoolean" style="display:block" class="invalid-feedback">
                                             <div>This Mobile Number Already Exist.</div>
                                         </div>
+                                        <div class="invalid-feedback" style="display: block;" *ngIf="existBoolean">
+                                            This Phone number Already Exist.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Alternate Phone Number</label>
-                                        <input type="text" formControlName="alternatenumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.alternatenumber.errors }" />
+                                        <input type="text" formControlName="alternatenumber" maxlength="11" minlength="11" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.alternatenumber.errors }" />
                                         <div *ngIf="submitted && f.alternatenumber.errors" class="invalid-feedback">
                                             <div *ngIf="f.alternatenumber.errors.required">Enter your Alternate Phone number</div>
                                         </div>
@@ -60,7 +67,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>branchname</label>
-                                        <input type="text" formControlName="branchname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.branchname.errors }" />
+                                        <input type="text" formControlName="branchname" maxlength="20" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.branchname.errors }" />
                                         <div *ngIf="submitted && f.branchname.errors" class="invalid-feedback">
                                             <div *ngIf="f.branchname.errors.required">Enter your Branch name</div>
                                         </div>
@@ -92,11 +99,16 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Aadhar</label>
-                                        <input type="file" (change)="fileChangeEvent($event)" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }" />
-                                        <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-                                            (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
-                                        <img [src]="croppedImage" />
+                                        <label for="aadharid" class="uploadPreImg">AADHAAR<span class="star">*</span>
+                                            <img src="../../../assets/images/spkpreview.jpg">
+                                            <input id="aadharid" type="file" (change)="fileChangeEvent($event)" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }" />
+                                        </label>
+
+                                        <div class="croppedPreview">
+                                            <image-cropper style="max-width:220px" [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="200" [maintainAspectRatio]="true" [aspectRatio]="3 / 2" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                                                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
+                                            <img [src]="croppedImage" />
+                                        </div>
                                         <div *ngIf="submitted && f.aadhar.errors" class="invalid-feedback">
                                             <div *ngIf="f.aadhar.errors.required">Upload your Aadhar Proof</div>
                                         </div>
@@ -104,12 +116,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Profile</label>
-                                        <input type="file" formControlName="profile" (change)="fileChangeProfileEvent($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.profile.errors }" />
-                                        <image-cropper [imageChangedEvent]="imageChangedProfileEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageProfileCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
-                                            (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
-                                        <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
-                                        <img [src]="croppedProfileImage" />
+                                        <label for="profileId" class="uploadPreImg">Profile<span class="star">*</span>
+                                            <img src="../../../assets/images/spkpreview.jpg">
+                                            <input id="profileId" type="file" (change)="fileChangeProfileEvent($event)" formControlName="profile" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.profile.errors }" />
+                                        </label>
+                                        <div class="croppedPreview">
+                                            <image-cropper style="max-width:200px;" [imageChangedEvent]="imageChangedProfileEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageProfileCropped($event)" (imageLoaded)="imageLoaded()"
+                                                (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
+                                            <img [src]="croppedProfileImage" />
+                                        </div>
                                         <div *ngIf="submitted && f.profile.errors" class="invalid-feedback">
                                             <div *ngIf="f.profile.errors.required">Please upload your profile</div>
                                         </div>
@@ -118,9 +133,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>location</label>
-                                        <input type="text" formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" />
+                                        <select formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                                            <option value="">Select</option>
+                                            <option [value]="loc.id" *ngFor="let loc of getLocation">{{loc.locationName}}</option>
+                                        </select>
                                         <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
-                                            <div *ngIf="f.location.errors.required">Enter your Age</div>
+                                            <div *ngIf="f.location.errors.required">Location is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <select formControlName="status" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                                            <option value="">Select</option>
+                                            <option [value]="0">Activate</option>
+                                            <option [value]="1">De Activate</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                                            <div *ngIf="f.status.errors.required">Status is required</div>
                                         </div>
                                     </div>
                                 </div>

@@ -16,6 +16,10 @@ import { BranchadminlistComponent } from './branchadminlist/branchadminlist.comp
 import { BranchadmineditComponent } from './branchadminedit/branchadminedit.component';
 import { EditDeliveryboyComponent } from './edit-deliveryboy/edit-deliveryboy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DeliveryboyPwdComponent } from './deliveryboy-pwd/deliveryboy-pwd.component';
+import {BranchadminPwdComponent } from "./branchadmin-pwd/branchadmin-pwd.component";
+import { BranchadminloginComponent } from "./branchadminlogin/branchadminlogin.component";
+
 const routes: Routes = [
   {
     path: '',
@@ -76,9 +80,20 @@ const routes: Routes = [
   {
     path:'dashboard',
     component:DashboardComponent
+  },
+  {
+    path:'deliveryboy-reset-password',
+    component:DeliveryboyPwdComponent
+  },
+  {
+    path:'branch-admin-reset-password',
+    component:BranchadminPwdComponent
+  },
+  {
+    path:'branch-admin-login',
+    component:BranchadminloginComponent
   }
-
-
+   
 
 ];
 

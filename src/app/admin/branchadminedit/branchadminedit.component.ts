@@ -23,12 +23,16 @@ export class BranchadmineditComponent implements OnInit {
   lastCropperPosition: CropperPosition;
   id:any ='';
   branchAdmin:any = {};
+  password;
+
+  show = false;
   constructor(private formBuilder: FormBuilder,private activatedRoute: ActivatedRoute,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
   ngOnInit() {
-
+    this.password = 'password';
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     if(this.id != ''){
-      this.getbranchadmin(this.id)
+      this.getbranchadmin(this.id);
+      this.location();
     }
       this.registerForm = this.formBuilder.group({
         name: ['', Validators.required],
@@ -39,10 +43,30 @@ export class BranchadmineditComponent implements OnInit {
         branchname: ['', Validators.required],
         address: ['', Validators.required],
         gender: ['', Validators.required],
-        aadhar: ['', Validators.required],
-        profile: ['', Validators.required],
+        aadhar: [''],
+        profile: [''],
         location: ['', Validators.required]
       });
+  }
+
+
+  onClick() {
+    if (this.password === 'password') {
+      this.password = 'text';
+      this.show = true;
+    } else {
+      this.password = 'password';
+      this.show = false;
+    }
+  }
+
+  getLocation:any = [];
+
+  location(){
+    this.appservice.location().subscribe(data =>{
+      console.log(data);
+      this.getLocation = data;
+    })
   }
 
 
@@ -51,6 +75,8 @@ this.appservice.getbranchadmin(id).subscribe(data =>{
   console.log(data);
   if(data){ 
   this.branchAdmin = data[0]
+  this.croppedProfileImage = this.branchAdmin.profile;
+  this.croppedImage = this.branchAdmin.aadhar;
   }
 })
   }
@@ -58,15 +84,14 @@ this.appservice.getbranchadmin(id).subscribe(data =>{
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
-  onSubmit() {
+  EditBranchAdmin() {
       this.submitted = true;
       if (this.registerForm.invalid) {
           return;
       }
-      console.log(this.registerForm.value);
-      this.registerForm.value.aadhar = this.croppedImage;
-      this.registerForm.value.profile = this.croppedProfileImage;
-       this.appservice.createBranchAdmin(this.registerForm.value).subscribe(data => {
+      this.branchAdmin.profile = this.croppedProfileImage;
+      this.branchAdmin.aadhar = this.croppedImage;
+       this.appservice.EditBranchAdmin(this.branchAdmin).subscribe(data => {
         console.log('deliveryboy values',this.registerForm.value);
         if(data){
           alert(data);

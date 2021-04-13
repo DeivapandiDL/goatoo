@@ -49,7 +49,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Address</label>
-                            <textarea formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
+                            <textarea formControlName="address" class="form-control" [(ngModel)]="userDetailsAuth.address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"></textarea>
                             <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                 <div *ngIf="f.address.errors.required">Address is required</div>
                             </div>

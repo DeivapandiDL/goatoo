@@ -1,0 +1,47 @@
+<div class="row deliveryView">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center"><strong>Personal Details</strong></h3>
+            </div>
+            <div class="col-md-12">
+                <div class="profileCard">
+                    <img [src]="data.profile">
+                    <div class="profile">
+                        <label><span>Name <i>:</i></span>{{data.firstname}} {{data.lastname}}</label>
+                        <label><span>Age <i>:</i></span>{{data.age}}</label>
+                        <label><span>Gender <i>:</i></span>{{data.gender}}</label>
+                        <label>
+                            <span>Status <i>:</i> </span>
+                            <strong>
+                              <ng-container *ngIf="data.status == 1">Active</ng-container>
+                              <ng-container *ngIf="data.status == 0">De Active</ng-container>
+                            </strong>
+                          </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center"><strong>Official Details</strong></h3>
+            </div>
+            <div class="col-md-12">
+                <div class="profileCard">
+                    <img [src]="data.aadhar">
+                    <div class="profile">
+                        <label><span>Email <i>:</i></span>{{data.email}}</label>
+                        <label><span>Phone Number <i>:</i></span>{{data.phonenumber}}</label>
+                        <label><span>AlterNate No <i>:</i></span>{{data.alternatenumber}}</label>
+                        <label><span>Education <i>:</i></span>{{data.education}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center"><button (click)="closePopup()" class="btn btn-danger btn-sm">Ok</button></div>
+            </div>
+        </div>
+    </div>

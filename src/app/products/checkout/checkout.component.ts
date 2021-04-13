@@ -23,9 +23,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   getUserAuth(){
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
     if(obj){ 
-    this.userDetailsAuth = obj;
+    this.userDetailsAuth = JSON.parse(obj);
     console.log(this.userDetailsAuth);
     if(Object.keys(this.userDetailsAuth).length > 0){
      

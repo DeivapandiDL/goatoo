@@ -45,6 +45,10 @@ p {
     font-size: 14px;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 section {
     width: 100%;
     overflow: hidden;
@@ -444,4 +448,55 @@ mat-footer-cell {
 
 .w100percent {
     width: 100%;
+}
+
+.fxNoend {
+    justify-content: flex-end;
+}
+
+.searchbar-search-icon.sc-ion-searchbar-md {
+    left: unset !important;
+    right: 16px !important;
+}
+
+.searchbar-input.sc-ion-searchbar-md {
+    -webkit-padding-start: 20px !important;
+    padding-inline-start: 20px !important;
+}
+
+.buttonToggleSwitch {
+    width: 180px;
+    min-width: 135px;
+}
+
+.buttonToggleSwitch button {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.buttonToggleSwitch button.activeBtnStatus {
+    background: #dc3545;
+    color: #fff;
+}
+
+.croppedPreview {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.pwdEye {
+    position: absolute;
+    right: 15px;
+    margin-top: -38px;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: flex;
+    padding: 0 7px 0 7px;
+    height: 38px;
+    align-items: center;
+    font-size: 26px;
+    color: #9c1a2c;
+    cursor: pointer;
 }

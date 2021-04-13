@@ -19,8 +19,14 @@ import { BranchAdminComponent } from './branch-admin/branch-admin.component';
 import { BranchadminlistComponent } from './branchadminlist/branchadminlist.component';
 import { EditDeliveryboyComponent } from './edit-deliveryboy/edit-deliveryboy.component';
 import { BranchadmineditComponent } from './branchadminedit/branchadminedit.component';
+import { DeliveryboyviewComponent } from './deliveryboyview/deliveryboyview.component';
+import { BranchadminviewComponent } from './branchadminview/branchadminview.component';
+import { DeliveryboyPwdComponent } from './deliveryboy-pwd/deliveryboy-pwd.component';
+import {BranchadminPwdComponent } from "./branchadmin-pwd/branchadmin-pwd.component";
+import { BranchadminloginComponent } from "./branchadminlogin/branchadminlogin.component";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminPage } from './admin.page';
+import { ProductImageComponent } from '../admin/product-image/product-image.component';
 // import { BrowserModule } from '@angular/platform-browser';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { CookieService } from 'ngx-cookie-service';
@@ -32,6 +38,8 @@ import { MatTableModule } from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ChartsModule } from 'ng2-charts';
+import { MatDialogModule } from '@angular/material/dialog';
+import { from } from 'rxjs';
 @NgModule({
   imports: [
     // BrowserModule,
@@ -49,18 +57,25 @@ import { ChartsModule } from 'ng2-charts';
     MatTableModule,
     MatInputModule,
     ChartsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
+  entryComponents: [DeliveryboyviewComponent,BranchadminviewComponent,ProductImageComponent],
   declarations: [
     AdminPage,
     AdminProductComponent,
     AdminProductListComponent,
     DeliveryBoyComponent,
     DeliveryboylistComponent,
+    DeliveryboyviewComponent,
     BranchAdminComponent,
+    BranchadminviewComponent,
     BranchadminlistComponent,
     EditDeliveryboyComponent,
     BranchadmineditComponent,
+    DeliveryboyPwdComponent,
+    BranchadminPwdComponent,
+    BranchadminloginComponent,
     FilterPipe,
     CreateCategoryComponent,
     EditproductComponent,
@@ -68,6 +83,7 @@ import { ChartsModule } from 'ng2-charts';
     CreateSubCategoryComponent,
     PurchasedListComponent,
     DashboardComponent,
+    ProductImageComponent,
     CustomerListComponent],
   providers: [CookieService]
 })

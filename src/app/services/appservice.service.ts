@@ -168,6 +168,9 @@ createSubCategory(item){
     )
 }
 
+
+
+
 getSubCategory(){
   return this.http.get(this.base_path+'getSubCategory').pipe(
     retry(2),
@@ -301,6 +304,36 @@ changeProductStatus(data){
 )
 }
 
+changeDeliveryBoyStatus(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+ return this.http.post(this.base_path+'changeDeliveryBoyStatus',data,{headers: headers}).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
+
+changeBranchAdminStatus(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+ return this.http.post(this.base_path+'changeBranchAdminStatus',data,{headers: headers}).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
+
 
 getRelatedProducts(id){
   return this.http.get(this.base_path+'getRelatedProductsList/'+id).pipe(
@@ -323,12 +356,24 @@ getLoginDetails(data){
     catchError(this.handleError)
   )
 }
-uploadImg(img){
-  return this.http.post(this.base_path+'api/imageupload',img).pipe(
+
+checkBranchAdmin(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+  return this.http.post(this.base_path+'checkBranchAdmin',data, {headers: headers}).pipe(
     retry(2),
     catchError(this.handleError)
   )
 }
+
+
+
+
 getAddProductDetails(data){
   var headers = new HttpHeaders();
   headers.append('Access-Control-Allow-Origin' , '*');
@@ -408,6 +453,22 @@ editProduct(data){
 )
 }
 
+
+EditBranchAdmin(data){
+  var headers = new HttpHeaders();
+  headers.append('Access-Control-Allow-Origin' , '*');
+  headers.append('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT');
+  headers.append('Accept','application/json');
+  headers.append('Content-Type','application/x-www-form-urlencoded;text/plain; charset=utf-8');
+  headers.append('Access-Control-Allow-Credentials','true');
+  headers.append('Access-Control-Allow-Headers','Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+  console.log('add new product',data);
+ return this.http.post(this.base_path+'EditBranchAdmin',data,{headers: headers ,responseType: 'text'}).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
 getWishlist(id){
   return this.http.get(this.base_path+'getWishlist/'+id).pipe(
     retry(2),
@@ -445,5 +506,44 @@ deleteWishlist(id){
 }
 
 
+productimage(){
+  return this.http.get(this.base_path+'productimage').pipe(
+    retry(2),
+    catchError(this.handleError)
+  ) 
+}
 
+
+insertProductImage(item){
+  console.log("service test");
+  return this.http
+    .post<[]>(this.base_path+'insertProductImage/', JSON.stringify(item), this.httpOptions)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+}
+
+
+
+
+getProductImage(id){
+  return this.http.get(this.base_path+'getProductImage/'+id).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+deliveryboyPwd(email){
+  return this.http.get(this.base_path+'deliveryboyPwd/'+email).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
+branchadminPwd(email){
+  return this.http.get(this.base_path+'branchadminPwd/'+email).pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
 }

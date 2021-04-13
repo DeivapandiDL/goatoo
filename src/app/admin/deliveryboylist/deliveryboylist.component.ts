@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { DeliveryboyviewComponent } from '../deliveryboyview/deliveryboyview.component';
 
 
 @Component({
@@ -12,13 +14,13 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./deliveryboylist.component.scss'],
 })
 export class DeliveryboylistComponent implements OnInit {
-  displayedColumns = ["firstname", "email", "phonenumber", "alternatenumber", "age", "gender", "education", "aadhar","profile","id"];
+  displayedColumns = ["firstname", "phonenumber", "alternatenumber", "aadhar","profile","id"];
   dataSource: any = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private appService:AppserviceService) { }
+  constructor(public dialog: MatDialog,private appService:AppserviceService) { }
   List:any = [];
   ngOnInit() {
     this.getDeliveryBoyList();
@@ -51,6 +53,28 @@ export class DeliveryboylistComponent implements OnInit {
 
   }
 
+  changeStatus(status,id){
+    console.log(status);
+
+    let data = {
+      status:null,
+      productID:id
+    }
+    if(status == true){
+      data.status = 0
+    }
+    else if(status == false){
+      data.status = 1
+    }    
+    this.appService.changeDeliveryBoyStatus(data).subscribe(data =>{
+      console.log(data);
+      this.getDeliveryBoyList();
+    })
+  }
+
+
+
+
   getDeliveryBoyList(){
     this.appService.getDeliveryBoyList().subscribe(data =>{
       if(data){
@@ -63,18 +87,26 @@ export class DeliveryboylistComponent implements OnInit {
     })
   }
 
+  viewdetails(id){
+    let data = [];
+    this.List.forEach(item =>{
+      if(item.id == id){
+        data.push(item);
+      }
+    });
+    console.log(data);
+    let dialogRef = this.dialog.open(DeliveryboyviewComponent, {
+      width: "800px",
+      data: data[0] ? data[0] : {},
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
+
+
+
 }
 
-export interface UserData {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phonenumber: string;
-  alternatenumber: string;
-  age: string;
-  gender: string;
-  education: string;
-  aadhar: string;
-  profile: string;
-}

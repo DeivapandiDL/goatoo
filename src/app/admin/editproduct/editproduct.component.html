@@ -57,7 +57,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Price Symbol <span class="star">*</span></label>
-                                            <input type="text" formControlName="productRateSymbol" maxlength="1" [(ngModel)]="getProduct.productRateSymbol" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productRateSymbol.errors }" />
+                                            <input type="text" formControlName="productRateSymbol" maxlength="2" [(ngModel)]="getProduct.productRateSymbol" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productRateSymbol.errors }" />
                                             <div *ngIf="submitted && f.productRateSymbol.errors" class="invalid-feedback">
                                                 <div *ngIf="f.productRateSymbol.errors.required">Price Symbol is required</div>
                                             </div>
@@ -96,29 +96,28 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="uploadProductImage" class="uploadPreImg">Upload Product Image <span class="star">*</span>
-                                            <img src="../../../assets/images/spkpreview.jpg">
-                                            <input id="uploadProductImage" type="file" (change)="fileChangeEvent($event)" formControlName="productImage" class="form-control" />
-                                            </label>
-                                            <img *ngIf="croppedImage != ''" [src]="croppedImage" class="croppedPreview" />
-                                            <div *ngIf="submitted && f.productImage.errors" class="invalid-feedback">
+                                            <a (click)="productImageUpload()" class="imageUploadPreview">
+                                                <img *ngIf="imagePreview == ''" src="../../../assets/images/spkpreview.jpg">
+                                                <label *ngIf="imagePreview == ''">Upload Image</label>
+                                                <img *ngIf="imagePreview != ''" [src]="imagePreview" class="croppedPreview" />
+                                                <label *ngIf="imagePreview != ''">Change Image</label>
+                                            </a>
+                                            <!-- <div *ngIf="submitted && f.productImage.errors" class="invalid-feedback">
                                                 <div *ngIf="f.productImage.errors.required">Image is required</div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="imagecropGrid">
+                                        <!-- <div class="imagecropGrid">
                                             <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
                                                 (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
-                                            <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
-                                            <!-- <img width="100%" class="image imgPreview" *ngIf="imageUrl != ''" [src]="imageUrl"> -->
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
 
                                 <div class="text-center mt-20">
                                     <button class="btn btn-danger btn-sm mr-1">Add Product</button>
-                                    <button class="btn btn-secondary btn-sm" type="reset" (click)="onReset()">Cancel</button> </div>
+                                    <a class="btn btn-secondary btn-sm" routerLink="/admin/AdminProductList">Cancel</a> </div>
                             </form>
                         </div>
                     </div>

@@ -4,7 +4,6 @@ import { ImageCroppedEvent, base64ToFile,ImageCropperComponent, CropperPosition}
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
 @Component({
   selector: 'app-branch-admin',
   templateUrl: './branch-admin.component.html',
@@ -21,10 +20,14 @@ export class BranchAdminComponent implements OnInit {
 getCropper:Blob;
 lastCroppedImage: any;
 lastCropperPosition: CropperPosition;
+existBoolean:boolean = false;
 id:any;
   constructor(private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
-
+  password;
+  show:boolean = false;
   ngOnInit() {
+    this.password = 'password';
+    this.location();
       this.registerForm = this.formBuilder.group({
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -36,8 +39,17 @@ id:any;
         gender: ['', Validators.required],
         aadhar: ['', Validators.required],
         profile: ['', Validators.required],
-        location: ['', Validators.required]
+        location: ['', Validators.required],
+        status:["", Validators.required]
       });
+  }
+  getLocation:any = [];
+
+  location(){
+    this.appservice.location().subscribe(data =>{
+      console.log(data);
+      this.getLocation = data;
+    })
   }
 
   // convenience getter for easy access to form fields
@@ -75,11 +87,19 @@ id:any;
 fileChangeProfileEvent(event: any): void {
   this.imageChangedProfileEvent = event;
 }
-
-
 fileUpload:any;
 imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+}
+
+onClick() {
+  if (this.password === 'password') {
+    this.password = 'text';
+    this.show = true;
+  } else {
+    this.password = 'password';
+    this.show = false;
+  }
 }
 
 
@@ -100,12 +120,26 @@ loadImageFailed() {
     // show message
 }
 
-getBranchAdmin(){
-    this.appservice.getbranchadmin(this.id).subscribe(data =>{
-      if(data){
-       
+
+
+
+  branchAdminExist(nos){
+    this.existBoolean = false;
+if(nos.length >= 10){
+  this.appservice.branchAdminExist(nos).subscribe(data =>{
+    console.log(data);
+    if(data[0]){
+      if(data[0].phonenumber && data[0].phonenumber != ''){
+        this.existBoolean = true;
+
+        setTimeout(() =>{
+          this.existBoolean = false;
+          this.registerForm.controls['phonenumber'].setValue('');
+        },2000)
       }
-    })
+    }
+  });
+}
   }
 
 

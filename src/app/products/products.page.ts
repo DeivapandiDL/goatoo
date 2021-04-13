@@ -26,9 +26,9 @@ export class ProductsPage implements OnInit {
    }
    userLogin:boolean = false;
    getUserAuth(){
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
     if(obj){ 
-    this.userDetailsAuth = obj;
+    this.userDetailsAuth = JSON.parse(obj);
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
     }

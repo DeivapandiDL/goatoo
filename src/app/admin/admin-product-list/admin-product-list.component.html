@@ -36,20 +36,20 @@
                                         </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="quantity">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.productCount}} </mat-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header class="fxNoend"> Quantity </mat-header-cell>
+                                        <mat-cell *matCellDef="let row" class="fxNoend"> {{row.productCount}} </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="productRate">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Price </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.productRate}} {{row.productRateSymbol}}</mat-cell>
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header class="fxNoend"> Price </mat-header-cell>
+                                        <mat-cell *matCellDef="let row" class="fxNoend">{{row.productRateSymbol}} {{row.productRate}} </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="createdDate">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header> Created Date </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.pdtCreatedDate}} </mat-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.pdtCreatedDate | date}} </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="expiryDate">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header> Expiry Date </mat-header-cell>
-                                        <mat-cell *matCellDef="let row"> {{row.expiryDate}} </mat-cell>
+                                        <mat-cell *matCellDef="let row"> {{row.expiryDate | date}} </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="activate">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
@@ -78,44 +78,6 @@
                                 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                             </div>
                         </div>
-                        <!-- <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col" (click)="sort(col.propertyName)">#</th>
-                                    <th scope="col" (click)="sort('productName')">Product Name</th>
-                                    <th scope="col" (click)="sort('productDescription')">Product Description</th>
-                                    <th scope="col" (click)="sort('quantity')">Quantity</th>
-                                    <th scope="col" (click)="sort('productRate')">Product Price</th>
-                                    <th scope="col" (click)="sort('createdDate')">Created Date</th>
-                                    <th scope="col" (click)="sort('expiryDate')">Exipiry Date</th>
-                                    <th scope="col">Edit</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let product of getProducts | filter : searchText">
-                                    <th scope="row">#</th>
-                                    <td>
-                                        <p class="truncTd">{{product.productName}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="truncTd" matTooltip="{{product.productDescription}}" placement="top">{{product.productDescription}}</p>
-                                    </td>
-                                    <td>{{product.productCount}}</td>
-                                    <td>{{product.productRateSymbol}} {{product.productRate}}</td>
-                                    <td>{{product.pdtCreatedDate | date:'short'}}</td>
-                                    <td>{{product.expiryDate}}</td>
-                                    <td>
-                                        <div class="fxEdit">
-                                            <a (click)="EditProduct(product.productID)"><img class="editIcon" src="../../../assets/images/edit.png"></a>
-                                            <a class="fxDelete" (click)="DeleteProduct(product.productID,product.productName)">
-                                                <ion-icon name="trash"></ion-icon>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> -->
-
                         <ng-template #noResults>
                             <p>No results found for "{{searchText}}".</p>
                         </ng-template>

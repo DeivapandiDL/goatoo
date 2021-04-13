@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card m-3">
-                    <h5 class="card-header highlight text-center">Add New Branch Admin</h5>
+                    <h5 class="card-header highlight text-center">Edit Branch Admin</h5>
                     <div class="card-body">
-                        <form [formGroup]="registerForm" class="container" (ngSubmit)="onSubmit()">
+                        <form [formGroup]="registerForm" class="container" (ngSubmit)="EditBranchAdmin()">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -29,7 +29,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="password" formControlName="password" [(ngModel)]="branchAdmin.password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                        <input [type]="password" formControlName="password" [(ngModel)]="branchAdmin.password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                                        <a class="pwdEye" (click)="onClick()">
+                                            <ion-icon name="eye" *ngIf="!show"></ion-icon>
+                                            <ion-icon name="eye-off" *ngIf="show"></ion-icon>
+                                        </a>
                                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                                             <div *ngIf="f.password.errors.required">Password is required</div>
                                         </div>
@@ -90,9 +94,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Aadhar</label>
-                                        <input type="file" (change)="fileChangeEvent($event)" [(ngModel)]="branchAdmin.aadhar" formControlName="aadhar" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }" />
-                                        <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+
+                                        <label for="aadharFile" class="imagePreview btn btn-sm btn-danger">
+                                            <ng-container *ngIf="croppedImage == ''">
+                                                <img src="../../../assets/images/spkpreview.jpg">
+                                                Upload AADHAAR
+                                            </ng-container>
+                                            <ng-container *ngIf="croppedImage != ''">Change Aadhaar</ng-container>
+                                            <input type="file" id="aadharFile" (change)="fileChangeEvent($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.aadhar.errors }" />
+                                        </label>
+
+                                        <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="200" [maintainAspectRatio]="true" [aspectRatio]="3 / 2" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
                                             (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
                                         <img [src]="croppedImage" />
                                         <div *ngIf="submitted && f.aadhar.errors" class="invalid-feedback">
@@ -102,8 +114,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Profile</label>
-                                        <input type="file" formControlName="profile" [(ngModel)]="branchAdmin.profile" (change)="fileChangeProfileEvent($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.profile.errors }" />
+                                        <label for="profileFile" class="imagePreview  btn btn-sm btn-danger">
+                                            <ng-container *ngIf="croppedProfileImage == ''">
+                                                <img src="../../../assets/images/spkpreview.jpg">
+                                                Upload Profile
+                                            </ng-container>
+                                            <ng-container *ngIf="croppedProfileImage != ''">Change Profile</ng-container>
+                                            <input type="file" id="profileFile" (change)="fileChangeProfileEvent($event)" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.profile.errors }" />
+                                        </label>
                                         <image-cropper [imageChangedEvent]="imageChangedProfileEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageProfileCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
                                             (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
                                         <!-- <button type="button" class="btn btn-sm btn-primary" (click)="crop()">Crop</button> -->
@@ -116,16 +134,18 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>location</label>
-                                        <input type="text" formControlName="location" [(ngModel)]="branchAdmin.location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" />
+                                        <select formControlName="location" class="form-control" [(ngModel)]="branchAdmin.location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                                            <option [value]="loc.id" *ngFor="let loc of getLocation">{{loc.locationName}}</option>
+                                        </select>
                                         <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
-                                            <div *ngIf="f.location.errors.required">Enter your Age</div>
+                                            <div *ngIf="f.productCount.errors.required">Count is required</div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="text-center">
                                         <button class="btn btn-danger btn-sm mr-1">Register</button>
-                                        <button class="btn btn-secondary btn-sm" type="reset" (click)="onReset()">Cancel</button>
+                                        <a routerLink="/home" class="btn btn-secondary btn-sm">Cancel</a>
                                     </div>
                                 </div>
                             </div>

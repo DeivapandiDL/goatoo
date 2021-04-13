@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-center galleryTitle">Product Image Gallery</h2>
+        <div class="tab">
+            <a (click)="tab(0)" [class.active]="tabNo == 0">Products</a>
+            <a (click)="tab(1)" [class.active]="tabNo == 1">Add New</a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="scrollInside">
+            <ng-container *ngIf="tabNo == 0">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 paddImageGrid" *ngFor="let image of productImageList">
+                        <div class="imgUpdate" [class.activeImage]="selectImageId == image.id">
+                            <span class="material-icons">done</span>
+                            <img (click)="getImageId(image.id)" class="imageGrid" [src]="image.path">
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="tabNo == 1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="uploadProductImage" class="uploadPreImg">Upload Product Image <span class="star">*</span>
+                      <img src="../../../assets/images/spkpreview.jpg">
+                      <input id="uploadProductImage" type="file" (change)="fileProductChangeEvent($event)" class="form-control" />
+                    </label>
+                        <img *ngIf="productCroppedImage != ''" [src]="productCroppedImage" class="croppedPreview" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="imagecropGrid">
+                            <image-cropper [imageChangedEvent]="imageChangedEvent" [resizeToWidth]="150" [maintainAspectRatio]="true" [aspectRatio]="3 / 3" [resizeToHeight]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+                                (loadImageFailed)="loadImageFailed()" [imageBase64]="imageBase64String"></image-cropper>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <button class="btn btn-danger btn-sm" (click)="addNewImage()">Save</button>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="row" *ngIf="tabNo == 0">
+            <div class="col-md-12 text-center mt-15">
+                <button class=" btn btn-danger btn-sm " (click)="getImage()">Select Image</button>
+            </div>
+        </div>
+    </div>
+
+</div>

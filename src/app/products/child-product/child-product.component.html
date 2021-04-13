@@ -12,8 +12,8 @@
             <img *ngIf="products.wishlist" (click)="deleteWishlist(products.productID)" src="../../assets/images/heart_red.png">
         </a>
         <a class="ProductClick" (click)="gotoProductDesc(products.productName,products.productID)">
-            <img *ngIf="products.productImage == '' " src="../../assets/images/product/1.jpg">
-            <img *ngIf="products.productImage != '' " src="{{products.productImage}}">
+            <img *ngIf="imagePreview == '' " src="../../assets/images/product/1.jpg">
+            <img *ngIf="imagePreview != '' " src="{{imagePreview}}">
         </a>
         <div class="productDesc" (click)="gotoProductDesc(products.productName,products.productID)">
             <div class="descProduct">

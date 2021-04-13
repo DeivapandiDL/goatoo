@@ -4,6 +4,7 @@ import { AppserviceService } from '../../services/appservice.service';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError,BehaviorSubject } from 'rxjs';
 import { Router, RouterModule, Routes,NavigationEnd } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -17,8 +18,10 @@ export class EditProfileComponent implements OnInit {
   loginSubmitted = false;
   userDetailsAuth:any=[];
   constructor(
-    private router:Router,private http:HttpClient,
-  private formBuilder: FormBuilder,private appService:AppserviceService) { }
+    private router:Router,private http:HttpClient,private cookieService:CookieService,
+  private formBuilder: FormBuilder,private appService:AppserviceService) { 
+    this.getUserAuth();
+  }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -29,12 +32,14 @@ export class EditProfileComponent implements OnInit {
       address: ['', Validators.required],
       acceptTerms: [false, Validators.requiredTrue]
   });
-  this.getUserAuth();
   }
 
   getUserAuth(){
-    this.userDetailsAuth = JSON.parse(sessionStorage.getItem('userDetails'));
+    let obj = this.cookieService.get('userDetails');
+    if(obj){ 
+    this.userDetailsAuth = JSON.parse(obj);
     console.log(this.userDetailsAuth);
+    }
   
   }
   get f() { return this.registerForm.controls; }
@@ -48,6 +53,7 @@ export class EditProfileComponent implements OnInit {
     this.appService.updateCustomer(this.userDetailsAuth).subscribe(
        (data) => {
            console.log(data);
+            this.cookieService.set('userDetails',JSON.stringify(data[0]));
        })
    }
 

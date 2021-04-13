@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-    loginSignUp:number = 0;
+  loginSignUp:number = 0;
   registerForm: FormGroup;
   loginForm: FormGroup;
   submitted = false;
@@ -20,15 +20,26 @@ export class LoginPage implements OnInit {
   postData = {
     name: ''    };
     customer:any={};
-
-
+    userDetailsAuth:any = {};
   constructor(private router:Router,private cookieService:CookieService,private http:HttpClient,private formBuilder: FormBuilder,private appService:AppserviceService) {
+    this.getUserAuth();
     this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd)
       ).subscribe((event: NavigationEnd) => {
         console.log(event.url);
       });
    }
+
+
+   getUserAuth(){
+    let obj = this.cookieService.get('userDetails');
+    if(obj){ 
+    this.userDetailsAuth = JSON.parse(obj);
+    this.router.navigate(['home']);
+    console.log(this.userDetailsAuth);
+    }
+  
+  }
 
 
   ngOnInit() {

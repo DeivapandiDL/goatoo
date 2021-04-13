@@ -53,12 +53,16 @@ export class MenuComponent {
   subCategory:any = [];
   profileDropdown:boolean = false;
   adminDropdown:boolean = false;
+  branchAdminExist:boolean = false;
   ngOnInit() {
     this.appService.userAdd.subscribe(data => {
       console.log(data);
       if(data.role== 1){
         this.adminDropdown=true;
         console.log(data.role);
+      }
+      if(data.role == 2){
+        this.branchAdminExist = true;
       }
       if(data && Object.keys(data).length > 0){ 
       this.userDetailsAuth = data;
@@ -133,6 +137,8 @@ export class MenuComponent {
   }
 
 getUserAuth(){
+  this.adminDropdown=false;
+    this.branchAdminExist=false;
   // let obj = JSON.parse(sessionStorage.getItem('userDetails'));
   let obj = this.cookieService.get('userDetails');
   console.log(this.cookieService.get('userDetails'))
@@ -141,6 +147,10 @@ getUserAuth(){
   console.log(this.userDetailsAuth);
   if(this.userDetailsAuth.role==1){
     this.adminDropdown=true;
+    console.log(this.userDetailsAuth.role);
+  }
+  else if(this.userDetailsAuth.role==2){
+    this.branchAdminExist=true;
     console.log(this.userDetailsAuth.role);
   }
   if(Object.keys(this.userDetailsAuth).length > 0){
@@ -159,15 +169,17 @@ logout(){
   this.adminDropdown=false;
   this.loginCred = "";
   sessionStorage.removeItem('userDetails');
-  this.cookieService.delete('userDetails', '/');
+  this.cookieService.set('userDetails', '');      
+  // this.cookieService.deleteAll('/');
   this.appService.userAuth([]);
   this.router.navigate(['/login']);
+  console.log(this.cookieService.delete('userDetails'));
+  this.userDetailsAuth = {};
 }
 profileEdit(){
   console.log(this.userDetailsAuth)
 this.profileDropdown = !this.profileDropdown;
 }
-
   //get cart details
 getCart(){
   this.appService.getCart().subscribe(data => {

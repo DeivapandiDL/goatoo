@@ -6,6 +6,10 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ImageCroppedEvent, base64ToFile,ImageCropperComponent, CropperPosition} from 'ngx-image-cropper';
 import swal from 'sweetalert2';
+import { ProductImageComponent } from '../product-image/product-image.component';
+import { MatDialog } from '@angular/material/dialog';
+
+
 @Component({
   selector: 'app-editproduct',
   templateUrl: './editproduct.component.html',
@@ -16,7 +20,7 @@ export class EditproductComponent {
   submitted = false;
   getProduct:any = {};
   uploadedFiles: Array < File > ;
-  constructor(private cookieService:CookieService,private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
+  constructor(public dialog: MatDialog,private cookieService:CookieService,private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
   imageChangedEvent: any = '';
   croppedImage: any = '';
   cropperHeight: any = ''; cropperWidth: any = '';
@@ -71,11 +75,29 @@ lastCropperPosition: CropperPosition;
       if(data){ 
       this.getProduct = data[0];
       console.log('product id',this.getProduct);
-      this.croppedImage = this.getProduct.productImage ? this.getProduct.productImage : '';
+      // this.croppedImage = this.getProduct.productImage ? this.getProduct.productImage : '';
       this.editProductBoolean = true;
+      this.getImageLoad();
       }
     })
   }
+  imagePreview:string = "";
+  getImageLoad(){
+    console.log(this.getProduct.productImage);
+    this.appservice.getProductImage(this.getProduct.productImage).subscribe(data =>{
+      console.log(data);
+      if(data){
+       this.imagePreview = data[0].path; 
+      }
+    })
+  }
+
+
+
+
+
+
+
 
 numberOnly(event):boolean{
   const charCode=event.which ? event.which : event.keyCode;
@@ -134,40 +156,11 @@ textOnly(event){
 
 
      get f() { return this.registerProduct.controls; }
-     fileChange(element, file: FileList) {
-
-      this.fileToUpload = file.item(0);
-
-    //Show image preview
-    let reader = new FileReader();
-    reader.onload = (event: any) => {
-      this.imageUrl = event.target.result;
-      console.log(this.imageUrl);
-    }
-    reader.readAsDataURL(this.fileToUpload);
-      this.uploadedFiles = element.target.files;
-      console.log('file upload',this.uploadedFiles);
-    //  this.upload();
-  }
+ 
 
 
 
 
-cat='';
-  upload() {
-    this.cat=this.registerProduct.value.categoryID;
-
-      let formData = new FormData();
-      for (var i = 0; i < this.uploadedFiles.length; i++) {
-        console.log(this.registerProduct.value.categoryID);
-          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-          console.log('inside upload function this.uploadedFiles[i]',this.uploadedFiles[i]);
-      // console.log('inside upload function this.uploadedFiles[i].name', this.uploadedFiles[i].name);
-      }
-      this.appservice.uploadImg(formData).subscribe((response) => {
-              console.log('response received is ', response);
-          })
-  }
    
 
      pdtSubmit() {
@@ -201,5 +194,26 @@ cat='';
          this.registerProduct.reset();
      }
 
+
+     imageId:number = null;
+productImageUpload(){
+  let dialogRef = this.dialog.open(ProductImageComponent, {
+    width: "800px",
+    height:"400px",
+    data: this.imageId,
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log(result);
+    this.imageId = result;
+    this.appservice.getProductImage(this.imageId).subscribe(data =>{
+      console.log(data);
+      this.imagePreview = data[0].path;
+      this.registerProduct.value.productImage = data[0].id;
+      this.getProduct.productImage = data[0].id;
+    })
+  });
+}
 }
 

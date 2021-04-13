@@ -4,10 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent, base64ToFile,ImageCropperComponent, CropperPosition} from 'ngx-image-cropper';
-
 import { DomSanitizer } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import {IAngularMyDpOptions, IMyDateModel} from 'angular-mydatepicker';
+import { ProductImageComponent } from '../product-image/product-image.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-admin-product',
@@ -27,7 +28,7 @@ export class AdminProductComponent implements OnInit {
   submitted = false;
   getProduct:any = {};
   uploadedFiles: Array < File > ;
-  constructor(private cookieService:CookieService,private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
+  constructor(public dialog: MatDialog,private cookieService:CookieService,private formBuilder: FormBuilder,private router:Router,private http:HttpClient, private appservice:AppserviceService) { }
   imageChangedEvent: any = '';
   croppedImage: any = '';
   cropperHeight: any = ''; cropperWidth: any = '';
@@ -58,11 +59,7 @@ lastCropperPosition: CropperPosition;
 
   ngOnInit() {
     if (this.myDateInit) {
-        // this.model = {isRange: false, singleDate: {date: { 
-        //                                                     year: 2019, 
-        //                                                     month: 5, 
-        //                                                     day: 14 
-        //                                                   }}};
+       
     }
     else {
         // Initialize to today with javascript date object
@@ -184,28 +181,12 @@ textOnly(event){
     reader.readAsDataURL(this.fileToUpload);
       this.uploadedFiles = element.target.files;
       console.log('file upload',this.uploadedFiles);
-     this.upload();
+    
   }
 
 
 
 
-cat='';
-  upload() {
-    this.cat=this.registerProduct.value.categoryID;
-
-      let formData = new FormData();
-      for (var i = 0; i < this.uploadedFiles.length; i++) {
-        console.log(this.registerProduct.value.categoryID);
-          formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
-          console.log('inside upload function this.uploadedFiles[i]',this.uploadedFiles[i]);
-      // console.log('inside upload function this.uploadedFiles[i].name', this.uploadedFiles[i].name);
-      }
-      this.appservice.uploadImg(formData).subscribe((response) => {
-              console.log('response received is ', response);
-          })
-  }
-   
 
      pdtSubmit() {
          this.submitted = true;
@@ -215,7 +196,7 @@ cat='';
          } 
          // display form values on success
         //  this.registerProduct.value.productImage='';
-         this.registerProduct.value.productImage = this.croppedImage;
+         
          this.registerProduct.value.expiryDate = this.registerProduct.value.expiryDate.singleDate.jsDate;
          this.appservice.getAddProductDetails(this.registerProduct.value).subscribe(data => {
           console.log('product details:::',data);
@@ -243,5 +224,29 @@ cat='';
          this.submitted = false;
          this.registerProduct.reset();
      }
+
+
+     
+imageId:number = null;
+imagePreview:string = '';
+productImageUpload(){
+  let dialogRef = this.dialog.open(ProductImageComponent, {
+    width: "800px",
+    height:"400px",
+    data: this.imageId,
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log(result);
+    this.imageId = result;
+    this.appservice.getProductImage(this.imageId).subscribe(data =>{
+      console.log(data);
+  this.imagePreview = data[0].path;
+  this.registerProduct.value.productImage = data[0].id;
+    })
+  });
+}
+
 
 }

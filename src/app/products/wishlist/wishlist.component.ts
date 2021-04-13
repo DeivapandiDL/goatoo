@@ -10,10 +10,10 @@ import { Router } from '@angular/router';
 export class WishlistComponent implements OnInit {
   userDetailsAuth:any = {};
   constructor(private router:Router,private cookieService: CookieService,private appservice:AppserviceService) {
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
   console.log(this.cookieService.get('userDetails'))
   if(obj){ 
-  this.userDetailsAuth = obj;
+  this.userDetailsAuth = JSON.parse(obj);
    }
   }
   productLists:any =[];

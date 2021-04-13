@@ -16,9 +16,12 @@ export class OrderHistoryComponent implements OnInit {
 
   constructor(private appService:AppserviceService,private cookieService: CookieService,private router:Router) {
     // let obj = JSON.parse(sessionStorage.getItem('userDetails'));
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
   console.log('object details:::::',obj);
-  this.custDetails.push(obj);
+  if(obj){
+    this.custDetails.push(JSON.parse(obj));
+  }
+  
    }
    productList:any = [];
 

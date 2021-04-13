@@ -1,0 +1,85 @@
+.uploadPreImg input {
+    display: none
+}
+
+.tab {
+    border-bottom: 1px solid #9c1a2c;
+    margin: 0 0 20px 0;
+}
+
+.tab a {
+    cursor: pointer;
+    background: #9c1a2c;
+    margin-bottom: -1px;
+    display: inline-block;
+    color: #fff;
+    padding: 4px 10px 4px 10px;
+    border: 1px solid #9c1a2c;
+    margin-right: 5px;
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+}
+
+.tab a:hover,
+.tab a.active {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+    color: #9c1a2c;
+}
+
+.imageGrid {
+    width: 100%
+}
+
+.imgUpdate {
+    box-shadow: 0 0 4px #ccc;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.paddImageGrid {
+    padding: 5px !important
+}
+
+.scrollInside {
+    height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 20px;
+}
+
+.imgUpdate.activeImage {
+    border: 1px solid #9c1a2c;
+    box-shadow: 0 0 4px #9c1a2c;
+    position: relative
+}
+
+.imgUpdate span {
+    display: none;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    color: #fff;
+    background: #9c1a2c;
+    border-radius: 50%;
+    font-size: 14px;
+    padding: 4px;
+    box-shadow: 0 0 2px #9c1a2c;
+}
+
+.imgUpdate.activeImage span {
+    display: block;
+}
+
+.galleryTitle {
+    margin-top: -21px;
+}
+
+.mt-15 {
+    margin-top: 15px !important
+}

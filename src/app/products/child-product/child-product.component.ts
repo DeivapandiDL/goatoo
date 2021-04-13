@@ -18,12 +18,15 @@ export class ChildProductComponent implements OnInit {
     this.getUserAuth();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.products.productImage);
+    this.getImageLoad(this.products.productImage);
+  }
 
   getUserAuth(){
-    let obj = JSON.parse(this.cookieService.get('userDetails'));
+    let obj = this.cookieService.get('userDetails');
     if(obj){ 
-    this.userDetailsAuth = obj;
+    this.userDetailsAuth = JSON.parse(obj);
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
     }
@@ -92,6 +95,13 @@ gotoProductDesc(name,id){
   this.appService.product = product;
   sessionStorage.setItem("productData",JSON.stringify(product));
   this.router.navigate(['home/product-details'], { queryParams: { name: name}});
+}
+imagePreview:string = '';
+getImageLoad(id){
+  this.appService.getProductImage(id).subscribe(data =>{
+    console.log(data);
+this.imagePreview = data[0].path;
+  })
 }
 
 }
