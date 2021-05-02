@@ -77,7 +77,6 @@ export class LoginPage implements OnInit {
                 this.loginCredentials = data;
                 if(this.loginCredentials.length > 0){
                     this.appService.userAuth(this.loginCredentials[0]);
-                    // sessionStorage.setItem('userDetails',JSON.stringify(this.loginCredentials[0]));
                     this.cookieService.set('userDetails',JSON.stringify(this.loginCredentials[0]));
                     this.router.navigate(['/home']);
                 }

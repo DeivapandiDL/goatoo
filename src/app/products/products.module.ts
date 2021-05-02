@@ -16,6 +16,15 @@ import { ChildProductComponent } from './child-product/child-product.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AgmCoreModule } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+
+declare module "@angular/core" {
+  interface ModuleWithProviders<T = any> {
+    ngModule: Type<T>;
+    providers?: Provider[];
+  }
+}
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,10 +35,9 @@ import { AgmCoreModule } from '@agm/core';
     MatToolbarModule,
     MatTooltipModule,
     AgmCoreModule.forRoot({
-      // please get your own API key here:
-      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
-      apiKey: 'AIzaSyDCRrAVmMLdTb8aiqiXNtBWmXClbXXTtM8'
-    })
+      apiKey: 'AIzaSyBvOV5R1RPcNivTYpq4lJ0GYSgvqmg9hHc'
+    }),
+    AgmJsMarkerClustererModule
   ],
   declarations: [ProductsPage,
     ProductDetailsComponent,

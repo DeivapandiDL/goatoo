@@ -105,9 +105,28 @@
     <section>
         <div class="container">
             <div class="row">
+                <!-- <div class="col-md-6">
+                    <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+                </div> -->
                 <div class="col-md-12">
-                    <agm-map [latitude]="lat" [longitude]="lng">
-                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" (mapClick)="mapClicked($event)">
+
+                        <agm-marker-cluster [minimumClusterSize]="minClusterSize" imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
+
+                            <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
+
+                                <agm-info-window>
+                                    <strong>InfoWindow content</strong>
+                                </agm-info-window>
+
+                            </agm-marker>
+
+                        </agm-marker-cluster>
+
+
+                        <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'" [circleDraggable]="true" [editable]="true">
+                        </agm-circle>
+
                     </agm-map>
                 </div>
             </div>

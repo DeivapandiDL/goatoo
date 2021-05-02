@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild,ElementRef,Input, Output,EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
 import { NgxCarousel } from 'ngx-carousel';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import swal from 'sweetalert2';
+import { MouseEvent } from '@agm/core';
 
 @Component({
   selector: 'app-home',
@@ -26,8 +28,84 @@ export class HomeComponent {
   userDetailsAuth:any = {};
   userLogin:boolean = false;
   purchaseProduct:any = [];
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  
+
+// google maps zoom level
+zoom: number = 8;
+  
+// initial center position for the map
+lat: number = 51.673858;
+lng: number = 7.815982;
+minClusterSize = 50;
+
+clickedMarker(label: string, index: number) {
+  console.log(`clicked the marker: ${label || index}`)
+}
+
+mapClicked($event: MouseEvent) {
+  this.markers.push({
+    lat: $event.coords.lat,
+    lng: $event.coords.lng,
+    // lat: 51.673858,
+    // lng: 7.815982,
+    draggable: true
+  });
+
+}
+
+markerDragEnd(m: marker, $event: MouseEvent) {
+  console.log('dragEnd', m, $event);
+}
+
+markers: marker[] = [
+  {
+    lat: 51.673858,
+    lng: 7.815982,
+    label: 'A',
+    draggable: true
+  },
+  {
+    lat: 51.373858,
+    lng: 7.215982,
+    label: 'B',
+    draggable: false
+  },
+  {
+    lat: 51.723858,
+    lng: 7.895982,
+    label: 'C',
+    draggable: true
+  },
+  // repeat
+    {
+    lat: 51.673800,
+    lng: 7.815900,
+    label: 'A',
+    draggable: true
+  },
+  {
+    lat: 51.373858,
+    lng: 7.215982,
+    label: 'B',
+    draggable: false
+  },
+  {
+    lat: 51.723858,
+    lng: 7.895982,
+    label: 'C',
+    draggable: true
+  }
+]
+
+toggleCluster(){ 
+this.minClusterSize = (this.minClusterSize<5)?50:2;
+console.log('toggleCluster  minClusterSize = '+this.minClusterSize);
+}
+
+
+
+
+
   adminDropdown:boolean = false;
   locId:string = '';
   @ViewChild("sliderWidth", { static: false }) sliderWidth: ElementRef;
@@ -354,3 +432,9 @@ getWishlist(){
 
 }
 
+interface marker {
+	lat: number;
+	lng: number;
+	label?: string;
+	draggable: boolean;
+}

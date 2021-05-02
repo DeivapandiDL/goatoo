@@ -1,65 +1,69 @@
 <ion-header class="header">
     <div class="container-fluid dFlex ion-align-items-center ion-justify-content-between plr-15">
-        <a class="logo" routerLink="/home">
-            <img src="../../../assets/images/logo.png">
-        </a>
-        <div class="searchNav">
-            <ion-searchbar type="text" debounce="500" (ionChange)="getItems($event)"></ion-searchbar>
-            <ion-list *ngIf="isItemAvailable" class="ionSearch">
-                <ion-item *ngFor="let item of items" (click)="gotoProduct(item)">{{ item.productName }}</ion-item>
-            </ion-list>
-            <a class="map" (click)="openDialog()"><span class="material-icons">place</span> {{locationName}}</a>
+        <div class="fxHeadFlex">
+            <a class="logo" routerLink="/home">
+                <img src="../../../assets/images/logo.png">
+            </a>
+            <a class="map mapView" (click)="openDialog()"><span class="material-icons">place</span> {{locationName}}</a>
         </div>
-        <div class="loginNav dFlex searchNav">
-            <a (click)="loginCredFun()" *ngIf="loginCred == ''" class="pointer">Login</a>
-            <button mat-button [matMenuTriggerFor]="menu" class="profileNameIcon" (click)="profileEdit()" *ngIf="loginCred != ''">
-                {{loginCred}} <span class="material-icons">keyboard_arrow_down</span></button>
-            <mat-menu #menu="matMenu">
-                <div class="dropdownLoginMenu" *ngIf="profileDropdown">
-                    <a (click)="closeDropdown()" routerLink="/login/editProfile">Edit Profile</a>
-                    <a (click)="closeDropdown()" routerLink="/products/order-history">Order History</a>
-                    <a (click)="closeDropdown()" routerLink="products/wishlist">wishlist</a>
-                    <a (click)="logout()">Logout</a>
-                </div>
-            </mat-menu>
-            <div class="cartIcon">
-                <a *ngIf="count == 0">
-                    <ion-icon ios="ios-cart" md="md-cart"></ion-icon>
-                    <span *ngIf="count > 0" class="cartClass">{{count}}</span>
-                </a>
+        <div class="fxHeadFlex">
+            <div class="searchNav">
+                <ion-searchbar type="text" debounce="500" (ionChange)="getItems($event)"></ion-searchbar>
+                <ion-list *ngIf="isItemAvailable" class="ionSearch">
+                    <ion-item *ngFor="let item of items" (click)="gotoProduct(item)">{{ item.productName }}</ion-item>
+                </ion-list>
+            </div>
+            <div class="loginNav dFlex searchNav">
+                <a (click)="loginCredFun()" *ngIf="loginCred == ''" class="pointer">Login</a>
+                <button mat-button [matMenuTriggerFor]="menu" class="profileNameIcon" (click)="profileEdit()" *ngIf="loginCred != ''">
+                welcome to {{loginCred}} <span class="material-icons">keyboard_arrow_down</span></button>
+                <mat-menu #menu="matMenu">
+                    <div class="dropdownLoginMenu" *ngIf="profileDropdown">
+                        <a (click)="closeDropdown()" routerLink="/login/editProfile">Edit Profile</a>
+                        <a (click)="closeDropdown()" routerLink="/products/order-history">Order History</a>
+                        <a (click)="closeDropdown()" routerLink="products/wishlist">wishlist</a>
+                        <a (click)="logout()">Logout</a>
+                    </div>
+                </mat-menu>
+                <div class="cartIcon">
+                    <a *ngIf="count == 0">
+                        <ion-icon ios="ios-cart" md="md-cart"></ion-icon>
+                        <span *ngIf="count > 0" class="cartClass">{{count}}</span>
+                    </a>
 
-                <a (click)="addtoCart()" [matMenuTriggerFor]="cartToggle" *ngIf="count > 0">
-                    <ion-icon ios="ios-cart" md="md-cart"></ion-icon>
-                    <span *ngIf="count > 0" class="cartClass">{{count}}</span>
-                </a>
-                <mat-menu #cartToggle="matMenu">
-                    <div class="cartDropDown">
-                        <h4>Order Summary</h4>
-                        <div class="cartDatas" *ngFor="let cart of showDataCart">
-                            <div class="cartProductName">{{cart.productName}}</div>
-                            <div class="countCart">
-                                <button (click)="countClick(cart,0)">-</button>
-                                <input type="text" class="text-center" value="{{cart.quantity}}">
-                                <button (click)="countClick(cart,1)">+</button>
+                    <a (click)="addtoCart()" [matMenuTriggerFor]="cartToggle" *ngIf="count > 0">
+                        <ion-icon ios="ios-cart" md="md-cart"></ion-icon>
+                        <span *ngIf="count > 0" class="cartClass">{{count}}</span>
+                    </a>
+                    <mat-menu #cartToggle="matMenu">
+                        <div class="cartDropDown">
+                            <h4>Order Summary</h4>
+                            <div class="cartDatas" *ngFor="let cart of showDataCart">
+                                <div class="cartProductName">{{cart.productName}}</div>
+                                <div class="countCart">
+                                    <button (click)="countClick(cart,0)">-</button>
+                                    <input type="text" class="text-center" value="{{cart.quantity}}">
+                                    <button (click)="countClick(cart,1)">+</button>
+                                </div>
+                                <div class="priceCartCount">
+                                    {{cart.productRateSymbol}} {{cart.productRate}}.00
+                                </div>
                             </div>
-                            <div class="priceCartCount">
-                                {{cart.productRateSymbol}} {{cart.productRate}}.00
+                            <div class="cartDatas">
+                                <span>Total Price : </span>
+                                <h5 class="highlight">$ {{totalPrice}}.00</h5>
                             </div>
-                        </div>
-                        <div class="cartDatas">
-                            <span>Total Price : </span>
-                            <h5 class="highlight">$ {{totalPrice}}.00</h5>
-                        </div>
-                        <div class="container dropdownContainer">
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button class="btn btn-danger btn-sm mr-15" (click)="gotoProductPage()">Back to Product</button>
-                                    <button class=" btn btn-danger btn-sm " (click)="gotoCheckout(); ">Checkout</button>
+                            <div class="container dropdownContainer">
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <button class="btn btn-danger btn-sm mr-15" (click)="gotoProductPage()">Back to Product</button>
+                                        <button class=" btn btn-danger btn-sm " (click)="gotoCheckout(); ">Checkout</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </mat-menu>
+                    </mat-menu>
+                </div>
             </div>
         </div>
     </div>

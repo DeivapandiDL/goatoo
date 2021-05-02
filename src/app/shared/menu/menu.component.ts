@@ -173,7 +173,7 @@ logout(){
   // this.cookieService.deleteAll('/');
   this.appService.userAuth([]);
   this.router.navigate(['/login']);
-  console.log(this.cookieService.delete('userDetails'));
+  // console.log(this.cookieService.delete('userDetails'));
   this.userDetailsAuth = {};
 }
 profileEdit(){

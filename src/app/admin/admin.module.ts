@@ -22,6 +22,8 @@ import { BranchadmineditComponent } from './branchadminedit/branchadminedit.comp
 import { DeliveryboyviewComponent } from './deliveryboyview/deliveryboyview.component';
 import { BranchadminviewComponent } from './branchadminview/branchadminview.component';
 import { DeliveryboyPwdComponent } from './deliveryboy-pwd/deliveryboy-pwd.component';
+import { DeliveryboyloginComponent } from './deliveryboylogin/deliveryboylogin.component';
+import { DeliveryOrdersComponent } from './delivery-orders/delivery-orders.component';
 import {BranchadminPwdComponent } from "./branchadmin-pwd/branchadmin-pwd.component";
 import { BranchadminloginComponent } from "./branchadminlogin/branchadminlogin.component";
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -74,6 +76,8 @@ import { from } from 'rxjs';
     EditDeliveryboyComponent,
     BranchadmineditComponent,
     DeliveryboyPwdComponent,
+    DeliveryboyloginComponent,
+    DeliveryOrdersComponent,
     BranchadminPwdComponent,
     BranchadminloginComponent,
     FilterPipe,

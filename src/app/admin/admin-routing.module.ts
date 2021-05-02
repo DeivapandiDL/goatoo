@@ -11,12 +11,14 @@ import { CreateSubCategoryComponent } from './create-sub-category/create-sub-cat
 import { PurchasedListComponent } from './purchased-list/purchased-list.component';
 import { DeliveryBoyComponent } from './delivery-boy/delivery-boy.component';
 import { DeliveryboylistComponent } from './deliveryboylist/deliveryboylist.component';
+import { DeliveryOrdersComponent } from './delivery-orders/delivery-orders.component';
 import { BranchAdminComponent } from './branch-admin/branch-admin.component';
 import { BranchadminlistComponent } from './branchadminlist/branchadminlist.component';
 import { BranchadmineditComponent } from './branchadminedit/branchadminedit.component';
 import { EditDeliveryboyComponent } from './edit-deliveryboy/edit-deliveryboy.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeliveryboyPwdComponent } from './deliveryboy-pwd/deliveryboy-pwd.component';
+import { DeliveryboyloginComponent } from './deliveryboylogin/deliveryboylogin.component';
 import {BranchadminPwdComponent } from "./branchadmin-pwd/branchadmin-pwd.component";
 import { BranchadminloginComponent } from "./branchadminlogin/branchadminlogin.component";
 
@@ -58,8 +60,16 @@ const routes: Routes = [
     component:DeliveryBoyComponent
   },
   {
+    path: 'deliveryboy-login',
+    component:DeliveryboyloginComponent
+  },
+  {
     path:'deliveryboylist',
     component:DeliveryboylistComponent
+  },
+  {
+    path:'mydelivery-orders',
+    component:DeliveryOrdersComponent
   },
   {
     path:'createBranchAdmin',

@@ -1,3 +1,90 @@
-<p>
-  deliveryboylogin works!
-</p>
+<div class="paddTop">
+    <section>
+        <div class="container maxLogin">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card m-3">
+                        <h5 class="card-header text-center highlight">Delivery Boy Login</h5>
+                        <div class="card-body">
+                            <form [formGroup]="loginForm" class="container" (ngSubmit)="onLoginSubmit()">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Username </label>
+                                            <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': loginSubmitted && l.username.errors }" />
+                                            <div *ngIf="loginSubmitted && l.username.errors" class="invalid-feedback">
+                                                <div *ngIf="l.username.errors.required"> username is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Password </label>
+                                            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': loginSubmitted && l.password.errors }" />
+                                            <div *ngIf="loginSubmitted && l.password.errors" class="invalid-feedback">
+                                                <div *ngIf="l.password.errors.required"> password is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center redColor" *ngIf="loginBoolean">
+                                    Username or Password incorrect!!!
+                                </div>
+                                <div class="text-center redColor" *ngIf="errorBoolean">
+                                    Your Account still Not Activated Please contact your admin
+                                </div>
+
+                                <div class="text-center loginAccBtns">
+                                    <button class="btn btn-danger btn-sm mr-1">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <a><img src="../../../assets/images/logo.png"></a>
+
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">STAY CONNECTED</h4>
+                    <p>Chenithra Technologies Private Limited, Madipakkam, Ponniamman kovil street, Chennai, 560103, Tamil Nadu, India</p>
+                    <p>Call - 044-4201023</p>
+                    <p>Mail - info@chenithra.com</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">CONTACT</h4>
+                    <p>Facebook</p>
+                    <p>Twitter</p>
+                    <p>Yaaho</p>
+                    <p>Youtube</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">POLICY</h4>
+                    <p>Return Policy</p>
+                    <p>Terms of Use</p>
+                    <p>Security</p>
+                    <p>Privacy</p>
+                    <p>Sitemap</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="btmFooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    2021 Chenithra Technologies Pvt Ltd. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
