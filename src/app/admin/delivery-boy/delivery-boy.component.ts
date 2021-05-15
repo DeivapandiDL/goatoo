@@ -30,6 +30,7 @@ export class DeliveryBoyComponent implements OnInit {
           email: ['', [Validators.required, Validators.email]],
           phonenumber: ['', [Validators.required, Validators.minLength(10)]],
           alternatenumber: ['', [Validators.required, Validators.minLength(10)]],
+          location:['',Validators.required],
           age: ['', Validators.required],
           gender: ['', Validators.required],
           education: ['', Validators.required],
@@ -37,6 +38,7 @@ export class DeliveryBoyComponent implements OnInit {
           profile: ['', Validators.required],
           acceptTerms: [false, Validators.requiredTrue]
         });
+        this.location();
     }
 
     // convenience getter for easy access to form fields
@@ -121,7 +123,14 @@ phoneBoolean:boolean = false;
     })
     }
   }
+  getLocation:any = [];
 
+  location(){
+    this.appservice.location().subscribe(data =>{
+      console.log(data);
+      this.getLocation = data;
+    })
+  }
 
 
   }

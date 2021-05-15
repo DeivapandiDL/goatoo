@@ -84,3 +84,9 @@ a.wishlist {
     top: 10px;
     cursor: pointer;
 }
+
+.priceVerticalBetween {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

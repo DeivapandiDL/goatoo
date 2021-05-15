@@ -20,7 +20,7 @@
                 <mat-menu #menu="matMenu">
                     <div class="dropdownLoginMenu" *ngIf="profileDropdown">
                         <a (click)="closeDropdown()" routerLink="/login/editProfile">Edit Profile</a>
-                        <a (click)="closeDropdown()" routerLink="/products/order-history">Order History</a>
+                        <a (click)="closeDropdown()" routerLink="/home/order-history">Order History</a>
                         <a (click)="closeDropdown()" routerLink="products/wishlist">wishlist</a>
                         <a (click)="logout()">Logout</a>
                     </div>

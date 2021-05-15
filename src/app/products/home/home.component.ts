@@ -110,11 +110,6 @@ console.log('toggleCluster  minClusterSize = '+this.minClusterSize);
   locId:string = '';
   @ViewChild("sliderWidth", { static: false }) sliderWidth: ElementRef;
   constructor(private cookieService: CookieService, private formBuilder: FormBuilder, private appService: AppserviceService, private router:Router) {
-    let locId = this.cookieService.get('location');
-    if(locId){
-      let loc = JSON.parse(locId);
-      this.locId = loc.id;
-    }
     
     let pr = JSON.parse(sessionStorage.getItem("getProductCount"));
     this.getUserAuth();
@@ -153,7 +148,13 @@ console.log('toggleCluster  minClusterSize = '+this.minClusterSize);
 
 
   ionViewWillEnter() {
-    this.appService.productCountChange.subscribe(count => {
+    this.appService.castLocation.subscribe(loc => this.locId = loc);
+    let locId = this.cookieService.get('location');
+    if(locId){
+      let loc = JSON.parse(locId);
+      this.locId = loc.id;
+    }
+      this.appService.productCountChange.subscribe(count => {
       this.tempcount = [];
       if(Object.keys(count).length > 0){ 
       if(this.getProductCount.length > 0){

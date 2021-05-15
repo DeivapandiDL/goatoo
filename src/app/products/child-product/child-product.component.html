@@ -5,7 +5,7 @@
 </div> -->
 
 
-<div class="transtionAll" [ngClass]="{'col-md-4': list == 'grid', 'col-md-12 listViews': list == 'list'}">
+<div class="transtionAll">
     <div class="gridProduct">
         <a class="wishlist">
             <img *ngIf="!products.wishlist" (click)="addWishlist(products.productID)" src="../../assets/images/heart_white.png">
@@ -15,7 +15,7 @@
             <img *ngIf="imagePreview == '' " src="../../assets/images/product/1.jpg">
             <img *ngIf="imagePreview != '' " src="{{imagePreview}}">
         </a>
-        <div class="productDesc" (click)="gotoProductDesc(products.productName,products.productID)">
+        <div class="productDesc">
             <div class="descProduct">
                 <h4 matTooltip="{{products.productName}}">{{products.productName}}</h4>
                 <p>{{products.productDescription | slice:0:50}}...</p>
@@ -40,6 +40,14 @@
                 <span class="per"> {{products.productOfferPercent}}% off </span>
                 <span class="priceOfferGreen"> {{products.productRateSymbol}}{{(products.productRate - (products.productOfferPercent * products.productRate / 100)).toFixed(0)}}</span>
                 </span>
+            </div>
+            <div class="priceCount">
+                <div class="count" *ngIf="countBoolean">
+                    <button (click)="countClick(0,products.productID)">-</button>
+                    <input type="text" (keypress)="numberOnly($event)" [(ngModel)]="cartNumber">
+                    <button (click)="countClick(1,products.productID)">+</button>
+                </div>
+                <button *ngIf="!countBoolean" (click)="addToCartBtn(products.productID)" class="btn btn-danger btn-sm add">ADD TO CART</button>
             </div>
         </div>
     </div>

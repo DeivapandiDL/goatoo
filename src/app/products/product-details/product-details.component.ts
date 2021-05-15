@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppserviceService } from '../../services/appservice.service'; 
-import { Router,NavigationEnd } from '@angular/router';
+import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import swal from 'sweetalert2';
 })
 export class ProductDetailsComponent implements OnInit {
   previousUrl:string;
-  constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router) {
+  constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router,private activatedRoute: ActivatedRoute) {
     router.events
   .pipe(filter(event => event instanceof NavigationEnd))
   .subscribe((event: NavigationEnd) => {
@@ -27,22 +27,22 @@ getProductList:any = [];
 cartNumber:number = 1;
 getProductStoreCount:any = [];
 userDetailsAuth:any = {};
+tempcount:any = [];
+tempNO:number = 0;
+productArr:any = [];
 userLogin:boolean = false;
+menuId:string = "";
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.menuId = params.id;
+      console.log(this.menuId);
+      this.getProductDetails(this.menuId);
+    });
     let productCount = JSON.parse(sessionStorage.getItem("getProductCount"));
     if(productCount){
     this.getProductStoreCount = productCount;  
     }
-    console.log(this.getProductStoreCount);
-    if(Object.keys(this.appService.product).length > 0){
-      this.getProduct = this.appService.product;
-    }
-    else{
-      this.getProduct = JSON.parse(sessionStorage.getItem("productData"));
-    }
-    setTimeout(()=>{
-      this.getProductDetails(this.getProduct.id);
-    },500);
+    
   }
 
   getUserAuth(){
@@ -121,15 +121,15 @@ relatedProduct:any = [];
     this.appService.getProductDetails(id).subscribe(data =>{
       console.log(data);
       this.getProductList = data[0];
+      this.getImageLoad(this.getProductList.productImage);
       if(this.getProductStoreCount.length > 0){
        this.getProductStoreCount.forEach(data => {
          if(data.productId == this.getProductList.productID){
           this.cartNumber = data.count;
          }
         });
-       
-
       }
+      // this.productArr.push({'count':this.cartNumber,'productId':this.getProductList.productID});
       this.appService.getRelatedProducts(this.getProductList.subcategoryID).subscribe(res =>{
         console.log(res)
         if(res){ 
@@ -143,57 +143,44 @@ relatedProduct:any = [];
       })
     })
   }
+  imagePreview:string = "";
+  getImageLoad(id){
+    this.appService.getProductImage(id).subscribe(data =>{
+      this.imagePreview = data[0].path;
+    })
+  }
 
-
-tempcount:any = [];
-tempNO:number = 0;
-productArr:any = {};
   countClick(nos){
-    this.productArr = {};
+    this.productArr = [];
     this.tempNO = this.tempNO + 1;
     console.log(this.tempNO);
     if(nos == 0){ 
-    if(this.cartNumber > 1){
-      this.cartNumber = this.cartNumber - 1;
+      if(this.cartNumber > 1){
+        this.cartNumber = this.cartNumber - 1;
+      }
     }
-  }
-  else if(nos == 1){
-    this.cartNumber = this.cartNumber + 1;
-  }
-  this.productArr = {'count':this.cartNumber,'productId':this.getProductList.productID};
-  
-  
+    else if(nos == 1){
+      this.cartNumber = this.cartNumber + 1;
+    }
 }
 
 addToCart(id,cartNumber){
-  if(Object.keys(this.productArr).length > 0){
-    console.log("if ", this.productArr);
+  if(this.getProductStoreCount.filter((value, index) => { return value.productId === id}).length > 0) {
+    this.getProductStoreCount.forEach(data =>{
+      if(data.productId == id){
+        data.count = this.cartNumber;
+      }
+    });
+  } 
+  else {
+    this.getProductStoreCount.push({'count':this.cartNumber,'productId':this.getProductList.productID});
   }
-  else{
-    this.productArr = {'count':this.cartNumber,'productId':id};
-    console.log("else ", this.productArr)
-  }
- this.appService.changeCount(this.productArr);
-  if(this.getProductStoreCount.length > 0){
-    this.tempcount = this.getProductStoreCount.filter(data => {return data.productId == this.productArr.productId});
-    console.log(this.tempcount);
-    if(this.tempcount.length == 0){
-      this.getProductStoreCount.push(this.productArr);
-    }
-    else if(this.tempcount.length > 0){
-      this.getProductStoreCount.forEach(element => {
-        if(element.productId == this.tempcount[0].productId){
-          element.count = this.productArr.count;
-        }
-      });
-    }
-   }
-   else if(this.getProductStoreCount.length == 0){
-     this.getProductStoreCount.push(this.productArr);
-   }
-   this.tempcount = [];
-   sessionStorage.setItem("getProductCount",JSON.stringify(this.getProductStoreCount));
+  console.log(this.getProductStoreCount);
+  sessionStorage.setItem("getProductCount",JSON.stringify(this.getProductStoreCount));
 }
+
+  
+
 
 
 getWishlistData:any = [];

@@ -185,3 +185,39 @@ a.wishlist {
     top: 10px;
     cursor: pointer;
 }
+
+.priceCount {
+    display: flex;
+    justify-content: space-between;
+}
+
+.priceCount .count button {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    width: 30px;
+    height: 30px;
+}
+
+.priceCount .count button:focus {
+    outline: none !important
+}
+
+.priceCount button.add {
+    height: 30px;
+    margin-left: 50px;
+}
+
+.priceCount .count input {
+    width: 35px;
+    height: 30px;
+    text-align: center;
+    border-radius: 0px;
+    border: 1px solid #ccc;
+    border-right: 0px;
+    border-left: 0px;
+}
+
+.priceCount {
+    display: flex;
+}

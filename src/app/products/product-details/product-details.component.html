@@ -16,44 +16,47 @@
                             <img *ngIf="!getProductList.wishlist" (click)="addWishlist(getProductList.productID,1)" src="../../assets/images/heart_white.png">
                             <img *ngIf="getProductList.wishlist" (click)="deleteWishlist(getProductList.productID,1)" src="../../assets/images/heart_red.png">
                         </a>
-                        <img *ngIf="getProductList.productImage == '' " src="../../assets/images/product/1.jpg">
-                        <!-- <img *ngIf="getProductList.productImage != '' " src="../../assets/images/{{getProductList.categoryID}}/{{getProductList.productImage}}"> -->
-                        <img *ngIf="getProductList.productImage != '' " src="{{getProductList.productImage}}">
+                        <img *ngIf="imagePreview == '' " src="../../assets/images/product/1.jpg">
+                        <img *ngIf="imagePreview != '' " src="{{imagePreview}}">
 
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <h2>{{getProductList.productName}}</h2>
-                    <p>{{getProductList.productDescription}}</p>
-                    <div class="fewLeft" *ngIf="getProductList.productCount < 4 && getProductList.productCount > 0">
-                        ! hurry few left
+                <div class="col-md-8 priceVerticalBetween">
+                    <div class="descDetails">
+                        <h2>{{getProductList.productName}}</h2>
+                        <p>{{getProductList.productDescription}}</p>
                     </div>
-                    <div class="outStack" *ngIf="getProductList.productCount == 0">
-                        Out of Stock
-                    </div>
-                    <div class="priceAddCart">
-                        <div class="priceAmt">
-                            <!-- <h3>{{getProductList.productRateSymbol}} {{getProductList.productRate}} </h3> -->
-                            <div class="fewLeftproduct" *ngIf="getProductList.productCount < 4 && getProductList.productCount > 0">
-                                ! hurry few left
-                            </div>
-                            <div class="outStackproduct" *ngIf="getProductList.productCount == 0">
-                                Out of Stock
-                            </div>
-                            <span class="price" *ngIf="!getProductList.productOfferPercent || getProductList.productOfferPercent == 0">{{getProductList.productRateSymbol}} {{getProductList.productRate}}</span>
-                            <span class="offerPrice" *ngIf="getProductList.productOfferPercent && getProductList.productOfferPercent > 0"> 
-                                <span class="offerPriceCrash"> {{getProductList.productRateSymbol}}{{getProductList.productRate}}</span>
-                            <span class="per"> {{getProductList.productOfferPercent}}% off </span>
-                            <span class="priceOfferGreen"> {{getProductList.productRateSymbol}}{{(getProductList.productRate - (getProductList.productOfferPercent * getProductList.productRate / 100)).toFixed(0)}}</span>
-                            </span>
+                    <div class="priceListStack">
+                        <div class="fewLeft" *ngIf="getProductList.productCount < 4 && getProductList.productCount > 0">
+                            ! hurry few left
                         </div>
-                        <div class="priceCount">
-                            <div class="count">
-                                <button (click)="countClick(0)">-</button>
-                                <input type="text" (keypress)="numberOnly($event)" [(ngModel)]="cartNumber">
-                                <button (click)="countClick(1)">+</button>
+                        <div class="outStack" *ngIf="getProductList.productCount == 0">
+                            Out of Stock
+                        </div>
+                        <div class="priceAddCart">
+                            <div class="priceAmt">
+                                <!-- <h3>{{getProductList.productRateSymbol}} {{getProductList.productRate}} </h3> -->
+                                <div class="fewLeftproduct" *ngIf="getProductList.productCount < 4 && getProductList.productCount > 0">
+                                    ! hurry few left
+                                </div>
+                                <div class="outStackproduct" *ngIf="getProductList.productCount == 0">
+                                    Out of Stock
+                                </div>
+                                <span class="price" *ngIf="!getProductList.productOfferPercent || getProductList.productOfferPercent == 0">{{getProductList.productRateSymbol}} {{getProductList.productRate}}</span>
+                                <span class="offerPrice" *ngIf="getProductList.productOfferPercent && getProductList.productOfferPercent > 0"> 
+                                <span class="offerPriceCrash"> {{getProductList.productRateSymbol}}{{getProductList.productRate}}</span>
+                                <span class="per"> {{getProductList.productOfferPercent}}% off </span>
+                                <span class="priceOfferGreen"> {{getProductList.productRateSymbol}}{{(getProductList.productRate - (getProductList.productOfferPercent * getProductList.productRate / 100)).toFixed(0)}}</span>
+                                </span>
                             </div>
-                            <button (click)="addToCart(getProductList.productID,cartNumber)" class="btn btn-danger btn-sm add">ADD TO CART</button>
+                            <div class="priceCount">
+                                <div class="count">
+                                    <button (click)="countClick(0)">-</button>
+                                    <input type="text" (keypress)="numberOnly($event)" [(ngModel)]="cartNumber">
+                                    <button (click)="countClick(1)">+</button>
+                                </div>
+                                <button (click)="addToCart(getProductList.productID,cartNumber)" class="btn btn-danger btn-sm add">ADD TO CART</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,7 @@
         </div>
     </section>
 
-    <section class="productGrid slideGridSection" *ngIf="relatedProduct.length > 0">
+    <!-- <section class="productGrid slideGridSection" *ngIf="relatedProduct.length > 0">
         <div class="container">
             <div class="row">
                 <h2 class="mb-50 col-md-12 catName text-center"><span>Related Products</span></h2>
@@ -92,7 +95,6 @@
                                                         {{products.productDescription | slice:0:50}}... </div>
                                                     <div class="priceGrid">
                                                         <span class="price">$ {{products.productRate}}</span>
-                                                        <!-- <button class="btn btn-danger btn-sm" (click)="gotoProductDesc(products.productName,products.productID)">ADD TO CART</button> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,7 +106,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <section class="footer">
         <div class="container">

@@ -14,12 +14,30 @@ export class CheckoutComponent implements OnInit {
   userDetailsAuth:any = {};
   goToLogin:boolean = false;
   constructor(private cookieService: CookieService,private appService:AppserviceService,private router:Router) { 
-    this.getProductCount = JSON.parse(sessionStorage.getItem("getProductCount"));
+    let getProductCount = sessionStorage.getItem("getProductCount");
+    if(getProductCount){ 
+    this.getProductCount = JSON.parse(getProductCount);
+    }
     this.getUserAuth()
   }
 
   ngOnInit() {
+    if(this.getProductCount.length == 0){
+      this.router.navigate(['home']);
+      return false;
+    }
     this.getProducts();
+    this.getProductImage();
+  }
+
+  imageList:any = [];
+  getProductImage(){
+    this.appService.productimage().subscribe((data) => {
+      console.log(data);
+      if(data){ 
+      this.imageList = data;
+      }
+    })
   }
 
   getUserAuth(){
@@ -31,6 +49,11 @@ export class CheckoutComponent implements OnInit {
      
     }
   }
+
+
+  
+
+
   }
 
 
@@ -44,6 +67,13 @@ export class CheckoutComponent implements OnInit {
     this.appService.getProductList().subscribe((data) => {
         if(data){
           this.productList = data;
+          this.imageList.forEach(img =>{
+            this.productList.forEach(data =>{
+              if(img.id == data.productID){
+                data.imgSrc = img.path;
+              }
+            })
+          })
           this.getQuantity();
         }
     });
@@ -82,7 +112,7 @@ proceedtoCheckout(){
   if(Object.keys(this.userDetailsAuth).length > 0){
     this.showDataCart.forEach(element => {
       element.customerID = this.userDetailsAuth.id;
-      obj.push({'productName':element.productName,'productDesc':element.productDescription,'productID':element.productID,'categoryID':element.categoryID,'customerID':this.userDetailsAuth.id,'productQuantity':element.quantity,'productPrice':element.productRate,'totalPrice':element.productTotalRate})
+      obj.push({'productName':element.productName,'location':element.location,'productDesc':element.productDescription,'productID':element.productID,'categoryID':element.categoryID,'customerID':this.userDetailsAuth.id,'productQuantity':element.quantity,'productPrice':element.productRate,'totalPrice':element.productTotalRate})
     });
     console.log(obj);
     console.log(this.showDataCart);
@@ -122,7 +152,7 @@ proceedtoCheckout(){
           if(willDelete.value){
             sessionStorage.removeItem("getProductCount");
             this.appService.changeCount([]);
-            this.router.navigate(['/products/order-history']);
+            this.router.navigate(['home/order-history']);
           }else{
             
           }

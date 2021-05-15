@@ -16,6 +16,15 @@ changeMenu(newUser){
   this.menuId.next(newUser); 
 }
 
+private locationSet = new BehaviorSubject<string>('john');
+   castLocation = this.locationSet.asObservable();
+   
+   editLocation(loc){
+     this.locationSet.next(loc); 
+   }
+
+
+
 adminProductId:string = '';
 private userData = new BehaviorSubject<any>({});
 userAdd = this.userData.asObservable();
@@ -341,8 +350,12 @@ getRelatedProducts(id){
     catchError(this.handleError)
   )
 }
-
-
+getProductBySubCategory(id){
+  return this.http.get(this.base_path+'getRelatedProductsList/'+id).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
 getLoginDetails(data){
   var headers = new HttpHeaders();
   headers.append('Access-Control-Allow-Origin' , '*');
@@ -547,6 +560,16 @@ getProductImage(id){
   catchError(this.handleError)
 )
 }
+
+getAllProductImage(){
+  return this.http.get(this.base_path+'productimage/').pipe(
+  retry(2),
+  catchError(this.handleError)
+)
+}
+
+
+
 deliveryboyPwd(email){
   return this.http.get(this.base_path+'deliveryboyPwd/'+email).pipe(
   retry(2),

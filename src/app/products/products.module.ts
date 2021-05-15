@@ -35,7 +35,7 @@ declare module "@angular/core" {
     MatToolbarModule,
     MatTooltipModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBvOV5R1RPcNivTYpq4lJ0GYSgvqmg9hHc'
+      apiKey: 'AIzaSyAAIQ_XOxyPoAqvi-AVbfv_NdVSAG5hBsw'
     }),
     AgmJsMarkerClustererModule
   ],

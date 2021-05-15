@@ -1,6 +1,6 @@
 import { Component, OnInit,Input, Output,EventEmitter } from '@angular/core';
 import { AppserviceService } from '../services/appservice.service'; 
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import swal from 'sweetalert2';
 @Component({
@@ -11,19 +11,11 @@ import swal from 'sweetalert2';
 export class ProductsPage implements OnInit {
   list:string = 'grid';
   userDetailsAuth:any = {};
-  // master : String="send from parent";
-  // childToParent(name){
-  //   this.master=name;
-  // }
   locId:string = '';
-  constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router) {
-    let locId = this.cookieService.get('location');
-    if(locId){
-      let loc = JSON.parse(locId);
-      this.locId = loc.id;
-    }
-    this.getUserAuth();
-   }
+  BulkProductBoolean:boolean = false;
+  constructor(private cookieService:CookieService,private appService:AppserviceService,private router:Router,private activatedRoute: ActivatedRoute) {
+    this.getUserAuth();  
+  }
    userLogin:boolean = false;
    getUserAuth(){
     let obj = this.cookieService.get('userDetails');
@@ -40,85 +32,71 @@ export class ProductsPage implements OnInit {
   count:number = 0;
   tempcount:any = [];
   cartIDNo:number = 0;
-  productListData:any = [];
-  ngOnInit() {
-    this.appService.menuChange.subscribe(menu => {
-      console.log(menu);
-      this.subCatList = [];
-    this.productList = [];
-    this.menuId = menu;
-    this.getCategoryProduct();
-    this.getSubCategory();
-    });
-    this.getCategoryProduct();
-    this.getProducts();
-    this.getSubCategory();
-  }
 
-  
-     
-  
+  ngOnInit() {
+    this.appService.castLocation.subscribe(loc => this.locId = loc);
+    let locId = this.cookieService.get('location');
+    if(locId){
+      let loc = JSON.parse(locId);
+      this.locId = loc.id;
+    }
+    if(this.locId != ''){ 
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.menuId = params.id;
+      this.getAll(0)
+      this.getSubCategory();
+    });
+  }
+  }
 
   view(list){
     this.list = list;
   }
+
   priceSort(event){
     console.log(event.target.value);
     if(event.target.value != '' && event.target.value == 'low'){ 
-      this.productList.forEach(subcat => {
-      subcat.product.sort((a, b) =>  parseFloat(a.productRate) - parseFloat(b.productRate));
-      });
+      if(this.productList.length > 0){ 
+        this.productList.forEach(subcat => {
+        subcat.product.sort((a, b) =>  parseFloat(a.productRate) - parseFloat(b.productRate));
+        });
+      }
+      if(this.getProductbySubcatList.length > 0){ 
+          this.getProductbySubcatList.sort((a, b) =>  parseFloat(a.productRate) - parseFloat(b.productRate));
+      }
     }
     if(event.target.value != '' && event.target.value == 'high'){ 
-      this.productList.forEach(subcat => {
-      subcat.product.sort((a, b) =>  parseFloat(b.productRate) - parseFloat(a.productRate));
-      });
+      if(this.productList.length > 0){
+        this.productList.forEach(subcat => {
+          subcat.product.sort((a, b) =>  parseFloat(b.productRate) - parseFloat(a.productRate));
+        });
+      }
+      if(this.getProductbySubcatList.length > 0){
+        this.getProductbySubcatList.sort((a, b) =>  parseFloat(b.productRate) - parseFloat(a.productRate));
+      }
     }
   }
-  getProducts(){
-    this.appService.getProductList().subscribe((data) => {
-        if(data){
-          this.productListData = data;
-        }
-    });
-}
+
 
 cartNumber:number = 1;
 productArr:any = {};
 subCatList:any = [];
 productLoadTrue:boolean = false;
+
+
+
 getSubCategory(){
-  this.subCatList = [];
-  if(Object.keys(this.menuId).length > 0){ 
-    this.menuName = this.menuId.name;
-  }
-  else{
-    this.menuId = JSON.parse(sessionStorage.getItem("productMenu"));
-  }
-  setTimeout(() =>{
-  this.appService.getSubCategorybyCatId(this.menuId.id).subscribe(data => {
+  this.appService.getSubCategorybyCatId(this.menuId).subscribe(data => {
     console.log('sub category details:::',data);
     this.subCatList=data;
-  })
 })
 }
 
-  getCategoryProduct(){
-    if(Object.keys(this.menuId).length > 0){ 
-      this.menuName = this.menuId.name;
-    }
-    else{
-      this.menuId = JSON.parse(sessionStorage.getItem("productMenu"));
-    }
-    setTimeout(() =>{
-    this.getAllProductByCat();
-  });
-  }
-
-  getAllProductByCat(){
+  getCategoryProduct(id){
     this.productList = [];
-  this.appService.getCategoryProduct(this.menuId.id).subscribe(data =>{
+  this.appService.getCategoryProduct(this.menuId).subscribe(data =>{
     console.log(data);
+    this.getProductbySubcatList = [];
     this.productList = data;
     this.productLoadTrue = true;
   })
@@ -130,22 +108,22 @@ getSubCategory(){
   subcatSetIDBoolean:boolean = true;
   
   getAll(id){
+    this.BulkProductBoolean = true;
     this.subcatSetID = id;
-    this.getAllProductByCat()
+    this.getCategoryProduct(this.menuId)
   }
-
+getProductbySubcatList:any = [];
 getProductBySubId(id){ 
   this.subcatSetID = id;
   this.productList = [];
   this.productLoadTrue = false;
-  this.appService.getRelatedProducts(id).subscribe(res =>{
+  this.BulkProductBoolean = false;
+  this.appService.getProductBySubCategory(id).subscribe(res =>{
     console.log(res);
     setTimeout(()=>{
-      this.productList = res;
-      this.productLoadTrue = true;
-      this.ngOnInit();
-    })
-    
+      this.getProductbySubcatList = res;
+      console.log(this.getProductbySubcatList);
+    });
   });
 }
 }

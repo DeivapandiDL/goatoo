@@ -58,6 +58,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label>Location <span class="star">*</span></label>
+                                        <select formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }">
+                                            <option value="">Select</option>
+                                            <option [value]="loc.id" *ngFor="let loc of getLocation">{{loc.locationName}}</option>
+                                        </select>
+                                        <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+                                            <div *ngIf="f.productCount.errors.required">Count is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label>Age</label>
                                         <input type="text" formControlName="age" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.age.errors }" />
                                         <div *ngIf="submitted && f.age.errors" class="invalid-feedback">
@@ -133,4 +145,44 @@
             </div>
         </div>
     </div>
+    <section class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <a><img src="../../../assets/images/logo.png"></a>
+
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">STAY CONNECTED</h4>
+                    <p>Chenithra Technologies Private Limited, Madipakkam, Ponniamman kovil street, Chennai, 560103, Tamil Nadu, India</p>
+                    <p>Call - 044-4201023</p>
+                    <p>Mail - info@chenithra.com</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">CONTACT</h4>
+                    <p>Facebook</p>
+                    <p>Twitter</p>
+                    <p>Yaaho</p>
+                    <p>Youtube</p>
+                </div>
+                <div class="col-md-3">
+                    <h4 class="highlight">POLICY</h4>
+                    <p>Return Policy</p>
+                    <p>Terms of Use</p>
+                    <p>Security</p>
+                    <p>Privacy</p>
+                    <p>Sitemap</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="btmFooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    2021 Chenithra Technologies Pvt Ltd. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

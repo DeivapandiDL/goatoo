@@ -17,10 +17,36 @@ export class ChildProductComponent implements OnInit {
   constructor(private router:Router,private cookieService:CookieService,private appService:AppserviceService,) { 
     this.getUserAuth();
   }
+  countBoolean:boolean = false;
+  productId:string = "";
+cartNumber:number = 0;
+getProductStoreCount:any = [];
+tempcount:any = [];
+tempNO:number = 0;
 
   ngOnInit() {
     console.log(this.products.productImage);
     this.getImageLoad(this.products.productImage);
+    let productCount = JSON.parse(sessionStorage.getItem("getProductCount"));
+    if(productCount){
+      this.getProductStoreCount = productCount;  
+      this.getUpdateProductCount();
+      }
+  }
+
+
+  getUpdateProductCount(){
+    this.countBoolean = false;
+    if(this.getProductStoreCount.length > 0){
+      this.getProductStoreCount.forEach(data => {
+        if(data.productId == this.products.productID){
+         this.cartNumber = data.count;
+        }
+       });
+       if(this.cartNumber != 0){
+        this.countBoolean = true;
+       }
+     }
   }
 
   getUserAuth(){
@@ -94,7 +120,7 @@ gotoProductDesc(name,id){
   let product = {'id':id, 'name':name}
   this.appService.product = product;
   sessionStorage.setItem("productData",JSON.stringify(product));
-  this.router.navigate(['home/product-details'], { queryParams: { name: name}});
+  this.router.navigate(['home/product-details'], { queryParams: { id: id}});
 }
 imagePreview:string = '';
 getImageLoad(id){
@@ -102,6 +128,51 @@ getImageLoad(id){
     console.log(data);
 this.imagePreview = data[0].path;
   })
+}
+
+
+addToCartBtn(id){
+this.countClick(1,id);  
+this.countBoolean = false;
+}
+
+
+countClick(nos,id){
+  this.tempNO = this.tempNO + 1;
+  console.log(this.tempNO);
+  if(nos == 0){ 
+    if(this.cartNumber > 1){
+      this.cartNumber = this.cartNumber - 1;
+    }
+    else if(this.cartNumber == 1){
+      this.cartNumber = 0;
+      this.countBoolean = false;
+    }
+  }
+  else if(nos == 1){
+    this.cartNumber = this.cartNumber + 1;
+  }
+  this.addToCart(id);
+}
+
+addToCart(id){
+if(this.getProductStoreCount.filter((value, index) => { return value.productId === id}).length > 0) {
+  this.getProductStoreCount.forEach((data,index) =>{
+    if(data.productId == id){
+      if(this.cartNumber != 0){ 
+        data.count = this.cartNumber;
+      }
+      else{
+        this.getProductStoreCount.splice(index,1);
+      }
+    }
+  });
+} 
+else {
+  this.getProductStoreCount.push({'count':this.cartNumber,'productId':this.products.productID});
+}
+console.log(this.getProductStoreCount);
+sessionStorage.setItem("getProductCount",JSON.stringify(this.getProductStoreCount));
 }
 
 }

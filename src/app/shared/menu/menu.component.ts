@@ -118,6 +118,7 @@ export class MenuComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.locationName = result.locationName;
       this.locId = this.cookieService.get("location");
     });
   }
@@ -250,18 +251,15 @@ getCart(){
 
   getMenu(i,id,name,url){
     this.selectedIndex = i;
-   
     let menu = {'id':id,'name':name}
     console.log(menu);
     sessionStorage.setItem("productMenu",JSON.stringify(menu));
     this.appService.changeMenu(menu);
     if(name != 'Home'){ 
-    this.router.navigate(['/'+url], { queryParams: { name: name}});
-    // this.router.navigate(['products/product-details'], { queryParams: { name: name}});
+    this.router.navigate(['/'+url], { queryParams: { id: id}});
     }
     else if(name == 'Home'){ 
       this.router.navigate(['/'+url], { queryParams: {}});
-      // this.router.navigate(['products/product-details'], { queryParams: { name: name}});
       }
   }
   productList:any = [];
