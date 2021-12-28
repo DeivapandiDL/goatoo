@@ -6,7 +6,7 @@
             </a>
             <a class="map mapView" (click)="openDialog()"><span class="material-icons">place</span> {{locationName}}</a>
         </div>
-        <div class="fxHeadFlex">
+        <div class="fxHeadFlex abcd">
             <div class="searchNav">
                 <ion-searchbar type="text" debounce="500" (ionChange)="getItems($event)"></ion-searchbar>
                 <ion-list *ngIf="isItemAvailable" class="ionSearch">
@@ -78,33 +78,32 @@
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <li class="nav-item" *ngIf="roleAuthSet == 1">
                             <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
                         </li>
-                        <li class="nav-item active" *ngFor="let menu of appPages;let i = index;">
-                            <a class="nav-link" (click)="getMenu(i,menu.id,menu.title,menu.url)">{{menu.title}} </a>
-                        </li>
-                        <li class="nav-item" *ngIf="adminDropdown">
-                            <a class="nav-link" routerLink="/admin/deliveryboylist">Delivery Boys</a>
-                        </li>
-                        <li class="nav-item" *ngIf="!adminDropdown">
-                            <a class="nav-link" routerLink="/admin/career">Career</a>
-                        </li>
-                        <!-- <li class="nav-item" *ngIf="adminDropdown">
-                            <a class="nav-link" routerLink="/admin/createBranchAdmin">Create Branch Admin</a>
-                        </li> -->
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <ng-container *ngIf="roleAuthSet != 1">
+                            <li class="nav-item active" *ngFor="let menu of appPages;let i = index;">
+                                <a class="nav-link" (click)="getMenu(i,menu.id,menu.title,menu.url)">{{menu.title}} </a>
+                            </li>
+                        </ng-container>
+                        <li class="nav-item" *ngIf="roleAuthSet == 1 || roleAuthSet == 2">
                             <a class="nav-link" routerLink="/admin/branchAdminList">Branch Admin List</a>
                         </li>
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <li class="nav-item" *ngIf="roleAuthSet == 1">
+                            <a class="nav-link" routerLink="/admin/deliveryboylist">Delivery Boys</a>
+                        </li>
+                        <li class="nav-item" *ngIf="roleAuthSet == 3">
+                            <a class="nav-link" routerLink="/admin/mydelivery-orders">My Delivery History</a>
+                        </li>
+                        <li class="nav-item" *ngIf="roleAuthSet != 3 && roleAuthSet != 1">
+                            <a class="nav-link" routerLink="/admin/career">Career</a>
+                        </li>
+                        <li class="nav-item" *ngIf="roleAuthSet == 1">
                             <a class="nav-link" routerLink="/admin/AdminProductList">Admin Product List</a>
                         </li>
-                        <li class="nav-item" *ngIf="adminDropdown">
+                        <li class="nav-item" *ngIf="roleAuthSet == 1">
                             <a class="nav-link" routerLink="/admin/customer-list">Customer List</a>
                         </li>
-                        <!-- <li class="nav-item" *ngIf="adminDropdown">
-                            <a class="nav-link" routerLink="/admin/PurchasedList">Purchased Product List</a>
-                        </li> -->
 
 
                     </ul>
