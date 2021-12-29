@@ -6,7 +6,7 @@
             </a>
             <a class="map mapView" (click)="openDialog()"><span class="material-icons">place</span> {{locationName}}</a>
         </div>
-        <div class="fxHeadFlex abcd">
+        <div class="fxHeadFlex">
             <div class="searchNav">
                 <ion-searchbar type="text" debounce="500" (ionChange)="getItems($event)"></ion-searchbar>
                 <ion-list *ngIf="isItemAvailable" class="ionSearch">
