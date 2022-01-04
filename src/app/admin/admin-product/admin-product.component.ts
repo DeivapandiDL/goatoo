@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { ImageCroppedEvent, base64ToFile,ImageCropperComponent, CropperPosition} from 'ngx-image-cropper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
-import {IAngularMyDpOptions, IMyDateModel} from 'angular-mydatepicker';
 import { ProductImageComponent } from '../product-image/product-image.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -16,14 +15,9 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./admin-product.component.scss'],
 })
 export class AdminProductComponent implements OnInit {
-  myDpOptions: IAngularMyDpOptions = {
-    dateRange: false,
-    dateFormat: 'dd-mm-yyyy'
-    // other options are here...
-  };
+  
 
   myDateInit: boolean = true;
-  model: IMyDateModel = null;
   registerProduct: FormGroup;
   submitted = false;
   getProduct:any = {};
@@ -63,7 +57,7 @@ lastCropperPosition: CropperPosition;
     }
     else {
         // Initialize to today with javascript date object
-        this.model = {isRange: false, singleDate: {jsDate: new Date()}};
+        // this.model = {isRange: false, singleDate: {jsDate: new Date()}};
     }
     if(this.appservice.adminProductId != ''){
       this.getProductEdit(this.appservice.adminProductId);

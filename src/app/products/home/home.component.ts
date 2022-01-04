@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild,ElementRef,Input, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-import { NgxCarousel } from 'ngx-carousel';
 import { AppserviceService } from 'src/app/services/appservice.service';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -124,6 +123,9 @@ console.log('toggleCluster  minClusterSize = '+this.minClusterSize);
     console.log(this.userDetailsAuth);
     if(Object.keys(this.userDetailsAuth).length > 0){
       this.userLogin = true;
+      if(this.userDetailsAuth.role == 3){
+        this.router.navigate(['admin/mydelivery-orders'])
+      }
       this.getCustomerProduct();
     }
     if(this.userDetailsAuth.role==1){

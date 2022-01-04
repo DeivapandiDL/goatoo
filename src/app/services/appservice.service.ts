@@ -8,7 +8,11 @@ import { retry, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AppserviceService {
-  base_path = 'http://localhost:3000/';
+
+  private envUrl = environment.url;
+
+  // base_path = 'http://localhost:3000/';
+  base_path = environment.url;
 public getData:string = "geting from service data";
 private menuId = new BehaviorSubject<any>({});
 menuChange = this.menuId.asObservable();
@@ -204,7 +208,8 @@ getCategoryProduct(id){
 // get single product details
 
 getProductDetails(id){
-  return this.http.get(this.base_path+'getProductDetails/'+id).pipe(
+  console.log("tested for get product details TESETD" +environment.url);
+  return this.http.get(environment.url+'getProductDetails/'+id).pipe(
     retry(2),
     catchError(this.handleError)
   )

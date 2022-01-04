@@ -16,7 +16,6 @@ import { MenuComponent } from './shared/menu/menu.component';
 import { LocationComponent } from './shared/location/location.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';

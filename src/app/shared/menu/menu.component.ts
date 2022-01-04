@@ -27,7 +27,7 @@ export class MenuComponent {
   locationName:string = "";
   tempCountSet:any = [];
   constructor(public dialog: MatDialog,private router:Router,private cookieService:CookieService,private appService:AppserviceService) { 
-    
+    this.getUserAuth();
     let locId = this.cookieService.get('location');
     if(locId){
       let loc = JSON.parse(locId);
@@ -38,7 +38,7 @@ export class MenuComponent {
     else{
       this.openDialog();  
     }
-    this.getUserAuth();
+    
     let temp = JSON.parse(sessionStorage.getItem("getProductCount"));
     if(temp){
       this.tempCountSet = temp;
@@ -53,16 +53,13 @@ export class MenuComponent {
   subCategory:any = [];
   profileDropdown:boolean = false;
   adminDropdown:boolean = false;
+  roleAuthSet:string = "";
   branchAdminExist:boolean = false;
   ngOnInit() {
     this.appService.userAdd.subscribe(data => {
       console.log(data);
-      if(data.role== 1){
-        this.adminDropdown=true;
-        console.log(data.role);
-      }
-      if(data.role == 2){
-        this.branchAdminExist = true;
+      if(Object.keys(data).length > 0){
+        this.roleAuthSet = data.role;
       }
       if(data && Object.keys(data).length > 0){ 
       this.userDetailsAuth = data;
@@ -70,8 +67,8 @@ export class MenuComponent {
       console.log(this.loginCred);
       }
     });
-    this.getProducts();
     this.getCategory();
+    this.getProducts();
     this.getSubcategory();
     this.appService.productCountChange.subscribe(count => {
       this.tempcount = [];
@@ -138,22 +135,15 @@ export class MenuComponent {
   }
 
 getUserAuth(){
-  this.adminDropdown=false;
-    this.branchAdminExist=false;
   // let obj = JSON.parse(sessionStorage.getItem('userDetails'));
   let obj = this.cookieService.get('userDetails');
   console.log(this.cookieService.get('userDetails'))
   if(obj){ 
   this.userDetailsAuth = JSON.parse(obj);
   console.log(this.userDetailsAuth);
-  if(this.userDetailsAuth.role==1){
-    this.adminDropdown=true;
-    console.log(this.userDetailsAuth.role);
-  }
-  else if(this.userDetailsAuth.role==2){
-    this.branchAdminExist=true;
-    console.log(this.userDetailsAuth.role);
-  }
+  this.roleAuthSet = this.userDetailsAuth.role;
+  this.getCategory();
+  console.log(this.roleAuthSet);
   if(Object.keys(this.userDetailsAuth).length > 0){
     this.loginCred = this.userDetailsAuth.name;
   }
@@ -223,6 +213,10 @@ getCart(){
   }
 
   getCategory(){
+    if(this.roleAuthSet == '3'){
+      this.appPages = [];
+    }
+    if(this.roleAuthSet != '3'){ 
     this.appService.getCategoryList().subscribe(data =>{
       this.menuItem = data;
       this.menuItem.forEach(item => {
@@ -234,6 +228,7 @@ getCart(){
       });
       console.log('menu list', this.appPages);
     })
+  }
   }
 
   getSubcategory(){

@@ -120,7 +120,7 @@
                                                     <label>Expire Date<span class="star">*</span></label>
                                                     <!-- <input type="text" formControlName="expiryDate" class="form-control"> -->
                                                     <div class="input-box-container">
-                                                        <input class="input-box form-control" [min]="minDate" angular-mydatepicker name="mydate" (click)="dp.toggleCalendar()" [(ngModel)]="model" [options]="myDpOptions" formControlName="expiryDate" #dp="angular-mydatepicker" />
+                                                        <input class="input-box form-control" [min]="minDate" name="mydate" [(ngModel)]="model" formControlName="expiryDate" />
                                                     </div>
                                                     <div *ngIf="submitted && f.expiryDate.errors" class="invalid-feedback">
                                                         <div *ngIf="f.expiryDate.errors.required">Expire Date required</div>

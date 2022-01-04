@@ -127,6 +127,7 @@ getImageLoad(id){
   this.appService.getProductImage(id).subscribe(data =>{
     console.log(data);
 this.imagePreview = data[0].path;
+
   })
 }
 

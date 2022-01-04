@@ -30,7 +30,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminPage } from './admin.page';
 import { ProductImageComponent } from '../admin/product-image/product-image.component';
 // import { BrowserModule } from '@angular/platform-browser';
-import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { CookieService } from 'ngx-cookie-service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -52,7 +51,6 @@ import { from } from 'rxjs';
     IonicModule,
     AdminPageRoutingModule,
     ReactiveFormsModule,
-    AngularMyDatePickerModule,
     ImageCropperModule,
     MatPaginatorModule,
     MatSortModule,
